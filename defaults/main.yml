@@ -1,5 +1,8 @@
 ---
 
+# Package manager to use (defaults to OS default)
 package_mgr: "{{ ansible_pkg_mgr }}"
 
+# Mode to operate in.
+# Can be install/remove/update/upgrade
 package_mode: install
