@@ -1,0 +1,19 @@
+---
+
+- name: Update APT cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  become: yes
+
+- name: Installing {{ description | default('additional') }} packages (APT)
+  apt:
+    state: present
+    name: "{{ packages }}"
+  become: yes
+  register: packages_result
+
+- name: Show packaged installed and/or updated
+  debug:
+    var: packages_result.results
+  when: packages_result.results|length > 0

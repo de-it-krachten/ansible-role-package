@@ -1,0 +1,6 @@
+---
+
+- name: Update package list (YUM)
+  yum:
+    list: updates
+    update_cache: true

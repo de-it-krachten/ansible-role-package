@@ -1,0 +1,5 @@
+---
+
+package_mgr: "{{ ansible_pkg_mgr }}"
+
+package_mode: install

@@ -1,0 +1,7 @@
+---
+
+- name: Removing {{ description | default('additional') }} packages (YUM)
+  yum:
+    state: absent
+    name: "{{ packages }}"
+  register: packages_result

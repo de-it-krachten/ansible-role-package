@@ -1,0 +1,7 @@
+---
+
+- name: Removing {{ description | default('additional') }} packages (DNF)
+  dnf:
+    state: absent
+    name: "{{ packages }}"
+  register: packages_result
