@@ -1,9 +1,1 @@
----
-
-- name: Including task for package manager {{ package_mgr }}
-  include: "packages/{{ package_mgr }}-remove.yml"
-
-- name: Show packaged removed
-  debug:
-    var: packages_result.results
-  when: packages_result.results|length > 0
+packages-install.yml

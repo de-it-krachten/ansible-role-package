@@ -3,7 +3,33 @@
 - name: Converge
   hosts: all
   vars:
+    packages_add:
+      - rsync
+      - curl
+    packages_rm:
+      - tzdata
+      - wget
   tasks:
-    - name: "Include role 'ansible-role-package'"
+
+    - name: Include role 'ansible-role-package'
       include_role:
-        name: "ansible-role-package"
+        name: ansible-role-package
+        tasks_from: packages.yml
+      vars:
+        package_mode: install
+        packages: "{{ packages_add }}"
+
+    - name: Include role 'ansible-role-package'
+      include_role:
+        name: ansible-role-package
+        tasks_from: packages.yml
+      vars:
+        package_mode: remove
+        packages: "{{ packages_rm }}"
+
+    - name: Include role 'ansible-role-package'
+      include_role:
+        name: ansible-role-package
+        tasks_from: packages.yml
+      vars:
+        package_mode: upgrade

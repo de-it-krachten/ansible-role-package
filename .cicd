@@ -99,6 +99,7 @@ ci_templates:
   - src:  molecule/templates/converge.yml
     dest: molecule/default/converge.yml
     when: molecule_active
+    force: false
 #  - src:  molecule/templates/requirements.tmpl
 #    dest: molecule/default/requirements.tmpl
 #    when: molecule_active
