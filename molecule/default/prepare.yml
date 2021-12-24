@@ -28,10 +28,11 @@
             update_cache: yes
             cache_valid_time: 1
 
-        - name: Install requirements
+        - name: Install default packages
           package:
             name:
               - gnupg
+              - ssh
             state: present
 
         - name: Update APT cache
@@ -77,14 +78,12 @@
         - name: Install iptables
           include_role:
             name: iptables
-          # when: molecule_distro in [ 'debian10', 'ubuntu1804', 'centos7' ]
-          when: molecule_distro in [ 'debian10', 'ubuntu1804', 'ubuntu2004', 'centos7' ]
+          when: molecule_distro in [ 'debian10', 'ubuntu1804', 'centos7' ]
 
         - name: Install ufw
           include_role:
             name: ufw
-          # when: molecule_distro in [ 'debian11', 'ubuntu2004' ]
-          when: molecule_distro in [ 'debian11' ]
+          when: molecule_distro in [ 'debian11', 'ubuntu2004' ]
 
         - name: Install firewalld
           include_role:
