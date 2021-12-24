@@ -3,5 +3,5 @@
 - name: Removing {{ description | default('additional') }} packages (DNF)
   dnf:
     state: absent
-    name: "{{ packages }}"
+    name: "{{ package_list }}"
   register: packages_result

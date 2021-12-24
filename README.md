@@ -4,8 +4,7 @@
 # ansible-role-package
 
 Role to make package management easier.
-Supports rpm (dnf/yum), deb (apt) and pip.
-
+Supports rpm (dnf/yum) and deb (apt)
 
 
 Platforms
@@ -41,8 +40,30 @@ Example Playbook
 - name: Converge
   hosts: all
   vars:
+    packages_add:
+      - rsync
+      - curl
+    packages_rm:
+      - patch
   tasks:
-    - name: "Include role 'ansible-role-package'"
+
+    - name: 'ansible-role-package / install'
       include_role:
-        name: "ansible-role-package"
+        name: ansible-role-package
+      vars:
+        package_mode: install
+        package_list: "{{ packages_add }}"
+
+    - name: 'ansible-role-package / remove'
+      include_role:
+        name: ansible-role-package
+      vars:
+        package_mode: remove
+        package_list: "{{ packages_rm }}"
+
+    - name: 'ansible-role-package / update'
+      include_role:
+        name: ansible-role-package
+      vars:
+        package_mode: upgrade
 </pre></code>

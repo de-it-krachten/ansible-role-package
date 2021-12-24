@@ -1,4 +1,0 @@
----
-
-- name: Including task for package manager {{ package_mgr }}
-  include: "{{ package_mgr }}-{{ package_mode }}.yml"

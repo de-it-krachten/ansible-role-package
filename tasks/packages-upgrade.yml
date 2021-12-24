@@ -1,7 +1,1 @@
----
-
-- name: Updating {{ package_mgr }} package list
-  include: "packages/{{ package_mgr }}-update.yml"
-
-- name: Update all{{ package_mgr }} packages to latest level
-  include: "packages/{{ package_mgr }}-upgrade.yml"
+packages-install.yml
