@@ -3,5 +3,5 @@
 - name: Removing {{ description | default('additional') }} packages (APT)
   apt:
     state: absent
-    name: "{{ packages }}"
+    name: "{{ package_list }}"
   register: packages_result

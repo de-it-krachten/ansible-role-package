@@ -3,11 +3,6 @@
 - name: Installing {{ description | default('additional') }} packages (DNF)
   dnf:
     state: present
-    name: "{{ packages }}"
+    name: "{{ package_list }}"
     disable_gpg_check: "{{ disable_gpg_check | default('no') }}"
   register: packages_result
-
-- name: Show packaged installed and/or updated
-  debug:
-    var: packages_result.results
-  when: packages_result.results|length > 0
