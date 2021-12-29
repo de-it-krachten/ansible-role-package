@@ -1,8 +1,8 @@
 ---
 
-- name: Get packages from old list 'packages'
+- name: Import package list from older variable packages
   set_fact:
-    package_list: "{{ package_list | default(packages) }}"
+    package_list: "{{ package_list | default(packages) | default([]) }}"
 
 - name: Including task for package manager {{ package_mgr }}
   include: "packages-{{ package_mode }}.yml"
