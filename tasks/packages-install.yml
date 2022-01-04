@@ -1,7 +1,7 @@
 ---
 
 - name: Updating {{ package_mgr }} package list
-  include: "packages/{{ package_mgr }}-update.yml"
+  include_tasks: "packages/{{ package_mgr }}-update.yml"
 
 - name: Get list of installed packages (pre)
   ansible.builtin.package_facts:
@@ -16,7 +16,7 @@
     q2: '*[].{ name: name, version: version}'
 
 - name: Including task for package manager {{ package_mgr }}
-  include: "packages/{{ package_mgr }}-{{ package_mode }}.yml"
+  include_tasks: "packages/{{ package_mgr }}-{{ package_mode }}.yml"
 
 - name: Get list of installed packages (post)
   ansible.builtin.package_facts:

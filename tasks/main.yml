@@ -5,4 +5,4 @@
     package_list: "{{ package_list | default(packages) | default([]) }}"
 
 - name: Including task for package manager {{ package_mgr }}
-  include: "packages-{{ package_mode }}.yml"
+  include_tasks: "packages-{{ package_mode }}.yml"
