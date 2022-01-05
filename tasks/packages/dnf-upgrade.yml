@@ -2,7 +2,7 @@
 
 - name: Upgrade packages (DNF) # noqa 403
   dnf:
-    name: '*'
+    name: "*"
     state: latest
 
 - name: Remove dependencies that are no longer required (DNF)

@@ -32,13 +32,13 @@
 
 - name: Packages installed  # noqa no-handler
   debug:
-    msg: "{{ package_post1 | difference(package_pre1) }}"
+    msg: "{{ package_post1 | difference(package_pre1) | sort }}"
   when:
     - packages_result.changed is undefined or packages_result.changed
 
 - name: Packages removed  # noqa no-handler
   debug:
-    msg: "{{ package_pre1 | difference(package_post1) }}"
+    msg: "{{ package_pre1 | difference(package_post1) | sort }}"
   when:
     - packages_result.changed is undefined or packages_result.changed
 
