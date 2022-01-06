@@ -1,4 +1,4 @@
 ---
 
 - name: Updating {{ package_mgr }} package list
-  include: "packages/{{ package_mgr }}-update.yml"
+  include_tasks: "packages/{{ package_mgr }}-update.yml"

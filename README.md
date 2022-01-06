@@ -28,7 +28,7 @@ Role Variables
 package_mgr: "{{ ansible_pkg_mgr }}"
 
 # Mode to operate in.
-# Can be install/remove/update/upgrade
+# Can be install/install-verbose/remove/remove-verbose/update/upgrade/upgrade-verbose
 package_mode: install
 </pre></code>
 
