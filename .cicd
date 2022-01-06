@@ -5,7 +5,7 @@ role: ansible-role-package
 role_short: package
 role_description: |
   Role to make package management easier.
-  Supports rpm (dnf/yum), deb (apt) and pip
+  Supports rpm (dnf/yum) and deb (apt)
  
 
 # Supported platform
