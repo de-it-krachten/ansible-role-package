@@ -30,21 +30,11 @@
     q1: '*[].name'
     q2: '*[].{ name: name, version: version}'
 
-- name: Packages installed  # noqa no-handler
-  debug:
-    msg: "{{ package_post1 | difference(package_pre1) | sort }}"
-  when:
-    - packages_result.changed is undefined or packages_result.changed
-
-- name: Packages removed  # noqa no-handler
-  debug:
-    msg: "{{ package_pre1 | difference(package_post1) | sort }}"
-  when:
-    - packages_result.changed is undefined or packages_result.changed
-
-- name: Packages upgraded
-  debug:
-    msg: |
+- name: Create lists of installed/remove/changed packages
+  set_fact:
+    _installed: "{{ package_post1 | difference(package_pre1) | sort }}"
+    _removed: "{{ package_pre1 | difference(package_post1) | sort }}"
+    _updated: >
       [
         {% for item in (package_pre1 | intersect(package_post1)) -%}
         {% if (package_pre[item]|json_query('[].version')|first) != (package_post[item]|json_query('[].version')|first) %}
@@ -52,3 +42,18 @@
         {% endif %}
         {% endfor %}
       ]
+
+- name: Packages installed
+  debug:
+    msg: "{{ _installed }}"
+  when: _installed|length > 0
+
+- name: Packages removed
+  debug:
+    msg: "{{ _removed }}"
+  when: _removed|length > 0
+
+- name: Packages upgraded
+  debug:
+    msg: "{{ _updated }}"
+  when: _updated|length > 0
