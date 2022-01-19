@@ -32,6 +32,12 @@ jobs:
         run: |
           hostname -f
 
+      - name: disable apparmor for mysql
+        run: sudo ln -s /etc/apparmor.d/usr.sbin.mysqld /etc/apparmor.d/disable/
+
+      - name: parse apparmor for mysql
+        run: sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld
+
       - name: Install test dependencies.
         run: pip3 install ansible ansible-lint yamllint jmespath
 
@@ -51,6 +57,8 @@ jobs:
           - distro: centos7
             playbook: converge.yml
           - distro: centos8
+            playbook: converge.yml
+          - distro: rockylinux8
             playbook: converge.yml
           - distro: debian10
             playbook: converge.yml
@@ -75,6 +83,12 @@ jobs:
       - name: Show runner info
         run: |
           hostname -f
+
+      - name: disable apparmor for mysql
+        run: sudo ln -s /etc/apparmor.d/usr.sbin.mysqld /etc/apparmor.d/disable/
+
+      - name: parse apparmor for mysql
+        run: sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld
 
       - name: Install test dependencies.
         run: pip3 install ansible ansible-lint molecule[docker] docker yamllint jmespath

@@ -1,0 +1,9 @@
+generic:
+  role_description: |
+    Role to make package management easier.
+    Supports rpm (dnf/yum) and deb (apt)
+ci_templates:
+  converge.yml:
+    force: false
+github:
+  fail_fast: false
