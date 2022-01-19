@@ -14,6 +14,8 @@ Supported platforms
 
 - CentOS 7
 - CentOS 8
+- RockyLinux 8
+- AlmaLinux 8
 - Debian 10 (Buster)
 - Debian 11 (Bullseye)
 - Ubuntu 18.04 LTS
@@ -25,7 +27,7 @@ Role Variables
 --------------
 <pre><code>
 # Package manager to use (defaults to OS default)
-package_mgr: "{{ ansible_pkg_mgr }}"
+package_mgr: {{ ansible_pkg_mgr }}
 
 # Mode to operate in.
 # Can be install/install-verbose/remove/remove-verbose/update/upgrade/upgrade-verbose
@@ -37,7 +39,7 @@ Example Playbook
 ----------------
 
 <pre><code>
-- name: Converge
+- name: sample playbook for role 'package'
   hosts: all
   vars:
     packages_add:
@@ -47,23 +49,23 @@ Example Playbook
       - patch
   tasks:
 
-    - name: 'ansible-role-package / install'
+    - name: 'package / install'
       include_role:
-        name: ansible-role-package
+        name: package
       vars:
         package_mode: install
-        package_list: "{{ packages_add }}"
+        package_list: {{ packages_add }}
 
-    - name: 'ansible-role-package / remove'
+    - name: 'package / remove'
       include_role:
-        name: ansible-role-package
+        name: package
       vars:
         package_mode: remove
-        package_list: "{{ packages_rm }}"
+        package_list: {{ packages_rm }}
 
-    - name: 'ansible-role-package / update'
+    - name: 'package / update'
       include_role:
-        name: ansible-role-package
+        name: package
       vars:
         package_mode: upgrade
 </pre></code>
