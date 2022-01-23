@@ -9,3 +9,6 @@ package_mode: install
 
 # Should package list be updated before install/upgrade
 package_update: true
+
+# Pip command to use (can point to a virtualenv)
+package_pip_cmd: /usr/bin/pip3

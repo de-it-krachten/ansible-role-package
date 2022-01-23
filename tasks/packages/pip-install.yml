@@ -2,11 +2,7 @@
 
 - name: Installing pip packages from pypi
   pip:
-    name: "{{ pip_packages }}"
+    name: "{{ package_list }}"
     state: present
+    executable: "{{ package_pip_cmd }}"
   register: pip_packages_result
-
-- name: Show packages installed and/or updated
-  debug:
-    msg:
-      - "{{ pip_packages_result.stdout_lines | map('regex_search','^Successfully.*') | difference([None]) | join }}"

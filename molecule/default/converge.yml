@@ -8,7 +8,18 @@
       - curl
     packages_rm:
       - patch
+  roles:
+    - python
   tasks:
+
+    - name: Setup venv
+      pip: 
+        name: wheel
+        virtualenv: "{{ item }}"
+        virtualenv_python: python3.8
+      loop:
+        - /tmp/env1
+        - /tmp/env2
 
     - name: 'ansible-role-package / install'
       include_role:
@@ -16,6 +27,36 @@
       vars:
         package_mode: install
         package_list: "{{ packages_add }}"
+
+    - name: 'ansible-role-package / install-pip'
+      include_role:
+        name: ansible-role-package
+      vars:
+        package_mode: install
+        package_mgr: pip
+        package_list:
+          - e2j2==0.6.2
+
+    - name: 'ansible-role-package / install-pip / update'
+      include_role:
+        name: ansible-role-package
+      vars:
+        package_mode: install-verbose
+        package_mgr: pip
+        package_list:
+          - e2j2==0.7.1
+
+    - name: 'ansible-role-package / install-pip-verbose'
+      include_role:
+        name: ansible-role-package
+      vars:
+        package_mode: install-verbose
+        package_mgr: pip
+        package_pip_cmd: /tmp/env2/bin/pip3
+        package_list:
+          - ansible
+          - lxml
+          - dnspython
 
     - name: 'ansible-role-package / remove'
       include_role:

@@ -14,6 +14,10 @@ roles:
     src: https://github.com/de-it-krachten/ansible-role-iptables.git
     version: main
     scm: git
+  - name: python
+    src: https://github.com/de-it-krachten/ansible-role-python.git
+    version: main
+    scm: git
   - name: ufw
     src: https://github.com/de-it-krachten/ansible-role-ufw.git
     version: main
