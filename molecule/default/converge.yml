@@ -28,4 +28,4 @@
       include_role:
         name: ansible-role-package
       vars:
-        package_mode: upgrade
+        package_mode: upgrade-verbose
