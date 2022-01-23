@@ -24,6 +24,8 @@
     - name: 'ansible-role-package / install'
       include_role:
         name: ansible-role-package
+        apply:
+          tags: molecule-idempotence-notest
       vars:
         package_mode: install
         package_list: "{{ packages_add }}"
@@ -31,6 +33,8 @@
     - name: 'ansible-role-package / install-pip'
       include_role:
         name: ansible-role-package
+        apply:
+          tags: molecule-idempotence-notest
       vars:
         package_mode: install
         package_mgr: pip
