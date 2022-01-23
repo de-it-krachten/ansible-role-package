@@ -4,7 +4,9 @@
   dnf:
     name: "*"
     state: latest
+  register: packages_upgrade_result1
 
 - name: Remove dependencies that are no longer required (DNF)
   dnf:
     autoremove: yes
+  register: packages_upgrade_result2

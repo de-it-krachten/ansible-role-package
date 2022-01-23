@@ -4,7 +4,9 @@
   yum:
     name: '*'
     state: latest
+  register: packages_upgrade_result1
 
 - name: Remove dependencies that are no longer required (YUM)
   yum:
     autoremove: yes
+  register: packages_upgrade_result2

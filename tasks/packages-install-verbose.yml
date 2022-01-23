@@ -2,6 +2,11 @@
 
 - name: Updating {{ package_mgr }} package list
   include_tasks: "packages/{{ package_mgr }}-update.yml"
+  when: package_update|bool
+
+- name: Reset package mode
+  set_fact:
+    _package_mode: "{{ package_mode | regex_replace('-verbose') }}"
 
 - name: Get list of installed packages (pre)
   ansible.builtin.package_facts:
@@ -16,44 +21,48 @@
     q2: '*[].{ name: name, version: version}'
 
 - name: Including task for package manager {{ package_mgr }}
-  include_tasks: "packages/{{ package_mgr }}-{{ package_mode }}.yml"
+  include_tasks: "packages/{{ package_mgr }}-{{ _package_mode }}.yml"
 
-- name: Get list of installed packages (post)
-  ansible.builtin.package_facts:
+- block:
 
-- name: Save the package info in simplified form (post)
-  set_fact:
-    package_post: "{{ ansible_facts.packages }}"
-    package_post1: "{{ ansible_facts.packages | json_query(q1) }}"
-    package_post2: "{{ ansible_facts.packages | json_query(q2) }}"
-  vars:
-    q1: '*[].name'
-    q2: '*[].{ name: name, version: version}'
+    - name: Get list of installed packages (post)
+      ansible.builtin.package_facts:
 
-- name: Create lists of installed/remove/changed packages
-  set_fact:
-    _installed: "{{ package_post1 | difference(package_pre1) | sort }}"
-    _removed: "{{ package_pre1 | difference(package_post1) | sort }}"
-    _updated: >
-      [
-        {% for item in (package_pre1 | intersect(package_post1)) -%}
-        {% if (package_pre[item]|json_query('[].version')|first) != (package_post[item]|json_query('[].version')|first) %}
-        "{{ item }}"{% if not loop.last %},{% endif %}
-        {% endif %}
-        {% endfor %}
-      ]
+    - name: Save the package info in simplified form (post)
+      set_fact:
+        package_post: "{{ ansible_facts.packages }}"
+        package_post1: "{{ ansible_facts.packages | json_query(q1) }}"
+        package_post2: "{{ ansible_facts.packages | json_query(q2) }}"
+      vars:
+        q1: '*[].name'
+        q2: '*[].{ name: name, version: version}'
 
-- name: Packages installed
-  debug:
-    msg: "{{ _installed }}"
-  when: _installed|length > 0
+    - name: Create lists of installed/remove/changed packages
+      set_fact:
+        _installed: "{{ package_post1 | difference(package_pre1) | sort }}"
+        _removed: "{{ package_pre1 | difference(package_post1) | sort }}"
+        _updated: >
+          [
+            {% for item in (package_pre1 | intersect(package_post1)) -%}
+            {% if (package_pre[item]|json_query('[].version')|first) != (package_post[item]|json_query('[].version')|first) %}
+            "{{ item }}"{% if not loop.last %},{% endif %}
+            {% endif %}
+            {% endfor %}
+          ]
 
-- name: Packages removed
-  debug:
-    msg: "{{ _removed }}"
-  when: _removed|length > 0
+    - name: Packages installed
+      debug:
+        msg: "{{ _installed }}"
+      when: _installed|length > 0
 
-- name: Packages upgraded
-  debug:
-    msg: "{{ _updated }}"
-  when: _updated|length > 0
+    - name: Packages removed
+      debug:
+        msg: "{{ _removed }}"
+      when: _removed|length > 0
+
+    - name: Packages upgraded
+      debug:
+        msg: "{{ _updated }}"
+      when: _updated|length > 0
+
+  when: packages_upgrade_result1.changed or packages_upgrade_result2.changed

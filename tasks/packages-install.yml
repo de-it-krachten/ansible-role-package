@@ -2,6 +2,7 @@
 
 - name: Updating {{ package_mgr }} package list
   include_tasks: "packages/{{ package_mgr }}-update.yml"
+  when: package_update|bool
 
 - name: Including task for package manager {{ package_mgr }}
   include_tasks: "packages/{{ package_mgr }}-{{ package_mode }}.yml"
