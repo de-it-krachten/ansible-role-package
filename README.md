@@ -53,21 +53,23 @@ Example Playbook
       - curl
     packages_rm:
       - patch
+    python_virtualenv_root: /tmp/venv
+    python_virtualenvs:
+      - name: env1
+        python: /usr/bin/python3
+        pip_upgrade: true
+        site_packages: false
+        packages:
+          - pip
+      - name: env2
+        python: /usr/bin/python3
+        site_packages: false
+        pip_upgrade: true
+        packages:
+          - pip
   roles:
     - python
   tasks:
-
-    # Setup python virtualenv
-
-    - name: Setup venv
-      pip: 
-        name: wheel
-        virtualenv: "{{ item }}"
-        virtualenv_python: /usr/bin/python3
-      loop:
-        - /tmp/env1
-        - /tmp/env2
-
 
     # dnf / yum / apt
 
@@ -133,9 +135,8 @@ Example Playbook
       vars:
         package_mode: install-verbose
         package_mgr: pip
-        package_pip_cmd: /tmp/env2/bin/pip3
+        package_pip_cmd: /tmp/venv/env2/bin/pip3
         package_list:
-          - ansible
           - lxml
           - dnspython
 </pre></code>
