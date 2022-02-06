@@ -57,32 +57,68 @@ Example Playbook
     - python
   tasks:
 
+    # Setup python virtualenv
+
     - name: Setup venv
       pip: 
         name: wheel
         virtualenv: "{{ item }}"
-        virtualenv_python: python3.8
+        virtualenv_python: /usr/bin/python3
       loop:
         - /tmp/env1
         - /tmp/env2
 
-    - name: 'package / install'
+
+    # dnf / yum / apt
+
+    - name: 'package / os-packages / install / non-verbose'
       include_role:
         name: package
+        apply:
+          tags: molecule-idempotence-notest
       vars:
         package_mode: install
         package_list: "{{ packages_add }}"
 
-    - name: 'package / install-pip'
+    - name: 'package / os-packages / remove / non-verbose'
       include_role:
         name: package
+        apply:
+          tags: molecule-idempotence-notest
+      vars:
+        package_mode: remove
+        package_list: "{{ packages_rm }}"
+
+    - name: 'package / os-packages / install / verbose'
+      include_role:
+        name: package
+        apply:
+          tags: molecule-idempotence-notest
+      vars:
+        package_mode: install-verbose
+        package_list: "{{ packages_rm }}"
+
+    - name: 'package / os-packages / update / verbose'
+      include_role:
+        name: package
+      vars:
+        package_mode: upgrade-verbose
+
+
+    # pip
+
+    - name: 'package / pip / install / non-verbose / system-packages'
+      include_role:
+        name: package
+        apply:
+          tags: molecule-idempotence-notest
       vars:
         package_mode: install
         package_mgr: pip
         package_list:
           - e2j2==0.6.2
 
-    - name: 'package / install-pip / update'
+    - name: 'package / pip / update / verbose / system-packages'
       include_role:
         name: package
       vars:
@@ -91,7 +127,7 @@ Example Playbook
         package_list:
           - e2j2==0.7.1
 
-    - name: 'package / install-pip-verbose'
+    - name: 'package / pip / install / verbose / virtualenv'
       include_role:
         name: package
       vars:
@@ -102,17 +138,4 @@ Example Playbook
           - ansible
           - lxml
           - dnspython
-
-    - name: 'package / remove'
-      include_role:
-        name: package
-      vars:
-        package_mode: remove
-        package_list: "{{ packages_rm }}"
-
-    - name: 'package / update'
-      include_role:
-        name: package
-      vars:
-        package_mode: upgrade-verbose
 </pre></code>

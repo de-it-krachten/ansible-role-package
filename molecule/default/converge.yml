@@ -26,7 +26,7 @@
 
     # dnf / yum / apt
 
-    - name: 'ansible-role-package / install'
+    - name: 'ansible-role-package / os-packages / install / non-verbose'
       include_role:
         name: ansible-role-package
         apply:
@@ -35,7 +35,7 @@
         package_mode: install
         package_list: "{{ packages_add }}"
 
-    - name: 'ansible-role-package / remove'
+    - name: 'ansible-role-package / os-packages / remove / non-verbose'
       include_role:
         name: ansible-role-package
         apply:
@@ -44,7 +44,7 @@
         package_mode: remove
         package_list: "{{ packages_rm }}"
 
-    - name: 'ansible-role-package / install-verbose'
+    - name: 'ansible-role-package / os-packages / install / verbose'
       include_role:
         name: ansible-role-package
         apply:
@@ -53,7 +53,7 @@
         package_mode: install-verbose
         package_list: "{{ packages_rm }}"
 
-    - name: 'ansible-role-package / update-verbose'
+    - name: 'ansible-role-package / os-packages / update / verbose'
       include_role:
         name: ansible-role-package
       vars:
@@ -62,7 +62,7 @@
 
     # pip
 
-    - name: 'ansible-role-package / pip / install'
+    - name: 'ansible-role-package / pip / install / non-verbose / system-packages'
       include_role:
         name: ansible-role-package
         apply:
@@ -73,7 +73,7 @@
         package_list:
           - e2j2==0.6.2
 
-    - name: 'ansible-role-package / pip / install-verbose'
+    - name: 'ansible-role-package / pip / update / verbose / system-packages'
       include_role:
         name: ansible-role-package
       vars:
@@ -82,7 +82,7 @@
         package_list:
           - e2j2==0.7.1
 
-    - name: 'ansible-role-package / pip / install-verbose'
+    - name: 'ansible-role-package / pip / install / verbose / virtualenv'
       include_role:
         name: ansible-role-package
       vars:
