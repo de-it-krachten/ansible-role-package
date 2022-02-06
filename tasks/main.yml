@@ -4,5 +4,10 @@
   set_fact:
     package_list: "{{ package_list | default(packages) | default([]) }}"
 
-- name: Including task for package manager {{ package_mgr }}
-  include_tasks: "packages-{{ package_mode }}.yml"
+- name: Define task list 
+  set_fact:
+    package_tasklist: "{{ 'pip' if package_mgr == 'pip' else 'packages' }}-{{ package_mode }}.yml"
+    package_tasklist1: "{{ role_path }}/tasks/{{ 'pip' if package_mgr == 'pip' else 'packages' }}-{{ package_mode }}.yml"
+
+- name: Including task list {{ package_tasklist }}
+  include_tasks: "{{ package_tasklist1 }}"

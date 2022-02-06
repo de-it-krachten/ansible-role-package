@@ -4,7 +4,7 @@
 # ansible-role-package
 
 Role to make package management easier.
-Supports rpm (dnf/yum) and deb (apt)
+Supports dnf, yum, apt and pip
 
 
 Platforms
@@ -27,11 +27,17 @@ Role Variables
 --------------
 <pre><code>
 # Package manager to use (defaults to OS default)
-package_mgr: {{ ansible_pkg_mgr }}
+package_mgr: "{{ ansible_pkg_mgr }}"
 
 # Mode to operate in.
 # Can be install/install-verbose/remove/remove-verbose/update/upgrade/upgrade-verbose
 package_mode: install
+
+# Should package list be updated before install/upgrade
+package_update: true
+
+# Pip command to use (can point to a virtualenv)
+package_pip_cmd: /usr/bin/pip3
 </pre></code>
 
 
@@ -47,25 +53,90 @@ Example Playbook
       - curl
     packages_rm:
       - patch
+    python_virtualenv_root: /tmp/venv
+    python_virtualenvs:
+      - name: env1
+        python: /usr/bin/python3
+        pip_upgrade: true
+        site_packages: false
+        packages:
+          - pip
+      - name: env2
+        python: /usr/bin/python3
+        site_packages: false
+        pip_upgrade: true
+        packages:
+          - pip
+  roles:
+    - python
   tasks:
 
-    - name: 'package / install'
+    # dnf / yum / apt
+
+    - name: 'package / os-packages / install / non-verbose'
       include_role:
         name: package
+        apply:
+          tags: molecule-idempotence-notest
       vars:
         package_mode: install
-        package_list: {{ packages_add }}
+        package_list: "{{ packages_add }}"
 
-    - name: 'package / remove'
+    - name: 'package / os-packages / remove / non-verbose'
       include_role:
         name: package
+        apply:
+          tags: molecule-idempotence-notest
       vars:
         package_mode: remove
-        package_list: {{ packages_rm }}
+        package_list: "{{ packages_rm }}"
 
-    - name: 'package / update'
+    - name: 'package / os-packages / install / verbose'
+      include_role:
+        name: package
+        apply:
+          tags: molecule-idempotence-notest
+      vars:
+        package_mode: install-verbose
+        package_list: "{{ packages_rm }}"
+
+    - name: 'package / os-packages / update / verbose'
       include_role:
         name: package
       vars:
-        package_mode: upgrade
+        package_mode: upgrade-verbose
+
+
+    # pip
+
+    - name: 'package / pip / install / non-verbose / system-packages'
+      include_role:
+        name: package
+        apply:
+          tags: molecule-idempotence-notest
+      vars:
+        package_mode: install
+        package_mgr: pip
+        package_list:
+          - e2j2==0.6.2
+
+    - name: 'package / pip / update / verbose / system-packages'
+      include_role:
+        name: package
+      vars:
+        package_mode: install-verbose
+        package_mgr: pip
+        package_list:
+          - e2j2==0.7.1
+
+    - name: 'package / pip / install / verbose / virtualenv'
+      include_role:
+        name: package
+      vars:
+        package_mode: install-verbose
+        package_mgr: pip
+        package_pip_cmd: /tmp/venv/env2/bin/pip3
+        package_list:
+          - lxml
+          - dnspython
 </pre></code>

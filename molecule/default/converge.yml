@@ -8,24 +8,82 @@
       - curl
     packages_rm:
       - patch
+    python_virtualenv_root: /tmp/venv
+    python_virtualenvs:
+      - name: env1
+        python: /usr/bin/python3
+        site_packages: false
+        packages:
+          - pip
+  roles:
+    - python
   tasks:
 
-    - name: 'ansible-role-package / install'
+    # dnf / yum / apt
+
+    - name: 'ansible-role-package / os-packages / install / non-verbose'
       include_role:
         name: ansible-role-package
+        apply:
+          tags: molecule-idempotence-notest
       vars:
         package_mode: install
         package_list: "{{ packages_add }}"
 
-    - name: 'ansible-role-package / remove'
+    - name: 'ansible-role-package / os-packages / remove / non-verbose'
       include_role:
         name: ansible-role-package
+        apply:
+          tags: molecule-idempotence-notest
       vars:
         package_mode: remove
         package_list: "{{ packages_rm }}"
 
-    - name: 'ansible-role-package / update'
+    - name: 'ansible-role-package / os-packages / install / verbose'
+      include_role:
+        name: ansible-role-package
+        apply:
+          tags: molecule-idempotence-notest
+      vars:
+        package_mode: install-verbose
+        package_list: "{{ packages_rm }}"
+
+    - name: 'ansible-role-package / os-packages / update / verbose'
       include_role:
         name: ansible-role-package
       vars:
-        package_mode: upgrade
+        package_mode: upgrade-verbose
+
+
+    # pip
+
+    - name: 'ansible-role-package / pip / install / non-verbose / system-packages'
+      include_role:
+        name: ansible-role-package
+        apply:
+          tags: molecule-idempotence-notest
+      vars:
+        package_mode: install
+        package_mgr: pip
+        package_list:
+          - e2j2==0.6.2
+
+    - name: 'ansible-role-package / pip / update / verbose / system-packages'
+      include_role:
+        name: ansible-role-package
+      vars:
+        package_mode: install-verbose
+        package_mgr: pip
+        package_list:
+          - e2j2==0.7.1
+
+    - name: 'ansible-role-package / pip / install / verbose / virtualenv'
+      include_role:
+        name: ansible-role-package
+      vars:
+        package_mode: install-verbose
+        package_mgr: pip
+        package_pip_cmd: /tmp/venv/env1/bin/pip3
+        package_list:
+          - lxml
+          - dnspython
