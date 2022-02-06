@@ -4,4 +4,4 @@
   yum:
     state: present
     name: "{{ package_list }}"
-  register: packages_result
+  register: packages_result2

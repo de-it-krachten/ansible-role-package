@@ -12,14 +12,19 @@
     - python
   tasks:
 
+    # Setup python virtualenv
+
     - name: Setup venv
       pip: 
         name: wheel
         virtualenv: "{{ item }}"
-        virtualenv_python: python3.8
+        virtualenv_python: /usr/bin/python3
       loop:
         - /tmp/env1
         - /tmp/env2
+
+
+    # dnf / yum / apt
 
     - name: 'ansible-role-package / install'
       include_role:
@@ -30,7 +35,34 @@
         package_mode: install
         package_list: "{{ packages_add }}"
 
-    - name: 'ansible-role-package / install-pip'
+    - name: 'ansible-role-package / remove'
+      include_role:
+        name: ansible-role-package
+        apply:
+          tags: molecule-idempotence-notest
+      vars:
+        package_mode: remove
+        package_list: "{{ packages_rm }}"
+
+    - name: 'ansible-role-package / install-verbose'
+      include_role:
+        name: ansible-role-package
+        apply:
+          tags: molecule-idempotence-notest
+      vars:
+        package_mode: install-verbose
+        package_list: "{{ packages_rm }}"
+
+    - name: 'ansible-role-package / update-verbose'
+      include_role:
+        name: ansible-role-package
+      vars:
+        package_mode: upgrade-verbose
+
+
+    # pip
+
+    - name: 'ansible-role-package / pip / install'
       include_role:
         name: ansible-role-package
         apply:
@@ -41,7 +73,7 @@
         package_list:
           - e2j2==0.6.2
 
-    - name: 'ansible-role-package / install-pip / update'
+    - name: 'ansible-role-package / pip / install-verbose'
       include_role:
         name: ansible-role-package
       vars:
@@ -50,7 +82,7 @@
         package_list:
           - e2j2==0.7.1
 
-    - name: 'ansible-role-package / install-pip-verbose'
+    - name: 'ansible-role-package / pip / install-verbose'
       include_role:
         name: ansible-role-package
       vars:
@@ -61,16 +93,3 @@
           - ansible
           - lxml
           - dnspython
-
-    - name: 'ansible-role-package / remove'
-      include_role:
-        name: ansible-role-package
-      vars:
-        package_mode: remove
-        package_list: "{{ packages_rm }}"
-
-    - name: 'ansible-role-package / update'
-      include_role:
-        name: ansible-role-package
-      vars:
-        package_mode: upgrade-verbose

@@ -5,4 +5,4 @@
     state: present
     name: "{{ package_list }}"
     disable_gpg_check: "{{ disable_gpg_check | default('no') }}"
-  register: packages_result
+  register: packages_result2
