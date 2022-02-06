@@ -4,9 +4,10 @@
   apt:
     force_apt_get: yes
     upgrade: yes
-  register: packages_upgrade_result1
+  become: yes
+  register: packages_result
 
-- name: Remove dependencies that are no longer required (APT)
-  apt:
-    autoremove: yes
-  register: packages_upgrade_result2
+# - name: Remove dependencies that are no longer required (APT)
+#   apt:
+#     autoremove: yes
+#   register: packages_upgrade_result2

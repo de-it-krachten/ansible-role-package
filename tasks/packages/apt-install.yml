@@ -1,15 +1,10 @@
 ---
 
-- name: Update APT cache
-  apt:
-    update_cache: yes
-    cache_valid_time: 3600
-  become: yes
-  register: packages_result1
-
 - name: Installing {{ description | default('additional') }} packages (APT)
   apt:
     state: "{{ state | default('present') }}"
     name: "{{ package_list }}"
+    update_cache: yes
+    cache_valid_time: 3600
   become: yes
-  register: packages_result2
+  register: packages_result

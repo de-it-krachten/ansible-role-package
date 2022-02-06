@@ -4,3 +4,4 @@
   dnf:
     list: updates
     update_cache: true
+  become: yes

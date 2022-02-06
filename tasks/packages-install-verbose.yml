@@ -65,4 +65,4 @@
         msg: "{{ _updated }}"
       when: _updated|length > 0
 
-  when: ( packages_result1 is defined and packages_result1.changed ) or ( packages_result2 is defined and packages_result2.changed )
+  when: packages_result is defined and packages_result.changed
