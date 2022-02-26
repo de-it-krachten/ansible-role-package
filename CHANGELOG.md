@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.1.0...v1.2.0) (2022-02-26)
+
+
+### Features
+
+* **apt:** add support for enable/disable 'install_recommends' ([05b4872](https://github.com/de-it-krachten/ansible-role-package/commit/05b4872587b3adba1ca5b84a50ab9066c8b50e9e))
+
 # [1.1.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.0.0...v1.1.0) (2022-02-06)
 
 
