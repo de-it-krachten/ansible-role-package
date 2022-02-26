@@ -13,7 +13,6 @@ Platforms
 Supported platforms
 
 - CentOS 7
-- CentOS 8
 - RockyLinux 8
 - AlmaLinux 8
 - Debian 10 (Buster)
@@ -57,14 +56,7 @@ Example Playbook
     python_virtualenvs:
       - name: env1
         python: /usr/bin/python3
-        pip_upgrade: true
         site_packages: false
-        packages:
-          - pip
-      - name: env2
-        python: /usr/bin/python3
-        site_packages: false
-        pip_upgrade: true
         packages:
           - pip
   roles:
@@ -135,7 +127,7 @@ Example Playbook
       vars:
         package_mode: install-verbose
         package_mgr: pip
-        package_pip_cmd: /tmp/venv/env2/bin/pip3
+        package_pip_cmd: /tmp/venv/env1/bin/pip3
         package_list:
           - lxml
           - dnspython

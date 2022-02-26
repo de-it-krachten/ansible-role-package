@@ -5,6 +5,9 @@ name: CI
 on:
   pull_request:
   push:
+    branches-ignore:
+      - master
+      - main
   schedule:
     - cron: "0 7 * * 1"
 
@@ -55,8 +58,6 @@ jobs:
       matrix:
         include:
           - distro: centos7
-            playbook: converge.yml
-          - distro: centos8
             playbook: converge.yml
           - distro: rockylinux8
             playbook: converge.yml
