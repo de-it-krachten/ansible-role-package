@@ -34,7 +34,8 @@ jobs:
 
       - name: Show runner info
         run: |
-          hostname -f
+          echo "hostname : `hostname -f`"
+          echo "work-dir : $PWD"
 
       - name: disable apparmor for mysql
         run: sudo ln -s /etc/apparmor.d/usr.sbin.mysqld /etc/apparmor.d/disable/
@@ -43,7 +44,7 @@ jobs:
         run: sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld
 
       - name: Install test dependencies.
-        run: pip3 install ansible ansible-lint yamllint jmespath
+        run: pip3 install ansible ansible-lint==5.4.0 yamllint jmespath
 
       - name: Lint code.
         run: |
@@ -84,7 +85,8 @@ jobs:
 
       - name: Show runner info
         run: |
-          hostname -f
+          echo "hostname : `hostname -f`"
+          echo "work-dir : `$PWD`"
 
       - name: disable apparmor for mysql
         run: sudo ln -s /etc/apparmor.d/usr.sbin.mysqld /etc/apparmor.d/disable/
@@ -93,7 +95,7 @@ jobs:
         run: sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld
 
       - name: Install test dependencies.
-        run: pip3 install ansible ansible-lint molecule[docker] docker yamllint jmespath
+        run: pip3 install ansible ansible-lint==5.4.0 molecule[docker] docker yamllint jmespath
 
       - name: Set-up github runner
         run: |
