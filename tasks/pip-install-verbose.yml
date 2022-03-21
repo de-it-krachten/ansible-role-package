@@ -7,13 +7,13 @@
 - name: Get list of installed pip packages (pre)
   pip_package_info:
     clients: "{{ package_pip_cmd }}"
-  register: pip_packages
+  register: _pip_packages1
 
 - name: Save the package info in simplified form (pre)
   set_fact:
-    package_pre: "{{ pip_packages['packages'][package_pip_cmd] }}"
-    package_pre1: "{{ pip_packages['packages'][package_pip_cmd] | json_query(q1) }}"
-    package_pre2: "{{ pip_packages['packages'][package_pip_cmd] | json_query(q2) }}"
+    package_pre: "{{ _pip_packages1['packages'][package_pip_cmd] }}"
+    package_pre1: "{{ _pip_packages1['packages'][package_pip_cmd] | json_query(q1) }}"
+    package_pre2: "{{ _pip_packages1['packages'][package_pip_cmd] | json_query(q2) }}"
   vars:
     q1: '*[].name'
     q2: '*[].{ name: name, version: version}'
@@ -26,13 +26,13 @@
     - name: Get list of installed pip packages (post)
       pip_package_info:
         clients: "{{ package_pip_cmd }}"
-      register: pip_packages
+      register: _pip_packages2
 
     - name: Save the package info in simplified form (post)
       set_fact:
-        package_post: "{{ pip_packages['packages'][package_pip_cmd] }}"
-        package_post1: "{{ pip_packages['packages'][package_pip_cmd] | json_query(q1) }}"
-        package_post2: "{{ pip_packages['packages'][package_pip_cmd] | json_query(q2) }}"
+        package_post: "{{ _pip_packages2['packages'][package_pip_cmd] }}"
+        package_post1: "{{ _pip_packages2['packages'][package_pip_cmd] | json_query(q1) }}"
+        package_post2: "{{ _pip_packages2['packages'][package_pip_cmd] | json_query(q2) }}"
       vars:
         q1: '*[].name'
         q2: '*[].{ name: name, version: version}'
