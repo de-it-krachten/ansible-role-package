@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/de-it-krachten/ansible-role-package/compare/v1.2.0...v1.2.1) (2022-03-21)
+
+
+### Bug Fixes
+
+* fixed pip when 'pip_packages' is used as variable ([31fc373](https://github.com/de-it-krachten/ansible-role-package/commit/31fc373340ac5282eea5da2cea4715be67d75d34))
+
 # [1.2.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.1.0...v1.2.0) (2022-02-26)
 
 
