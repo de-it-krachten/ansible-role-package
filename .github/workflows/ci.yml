@@ -34,8 +34,7 @@ jobs:
 
       - name: Show runner info
         run: |
-          echo "hostname : `hostname -f`"
-          echo "work-dir : $PWD"
+          hostname -f
 
       - name: disable apparmor for mysql
         run: sudo ln -s /etc/apparmor.d/usr.sbin.mysqld /etc/apparmor.d/disable/
@@ -85,8 +84,7 @@ jobs:
 
       - name: Show runner info
         run: |
-          echo "hostname : `hostname -f`"
-          echo "work-dir : `$PWD`"
+          hostname -f
 
       - name: disable apparmor for mysql
         run: sudo ln -s /etc/apparmor.d/usr.sbin.mysqld /etc/apparmor.d/disable/
