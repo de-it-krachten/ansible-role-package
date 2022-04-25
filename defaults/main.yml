@@ -12,3 +12,6 @@ package_update: true
 
 # Pip command to use (can point to a virtualenv)
 package_pip_cmd: /usr/bin/pip3
+
+# max validity of apt cache
+package_apt_cache_valid_time: 3600
