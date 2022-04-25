@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.2.1...v1.3.0) (2022-04-25)
+
+
+### Features
+
+* make apt cache validity configurable ([e2a8f92](https://github.com/de-it-krachten/ansible-role-package/commit/e2a8f92a7bb510e9749f1b1276f718882da41c10))
+
 ## [1.2.1](https://github.com/de-it-krachten/ansible-role-package/compare/v1.2.0...v1.2.1) (2022-03-21)
 
 
