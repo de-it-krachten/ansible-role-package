@@ -85,5 +85,4 @@
         package_mgr: pip
         package_pip_cmd: /tmp/venv/env1/bin/pip3
         package_list:
-          - lxml
           - dnspython

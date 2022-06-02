@@ -1,0 +1,8 @@
+---
+
+- name: Upgrade packages (APK) # noqa 403
+  apk:
+    upgrade: yes
+    update_cache: no
+  become: yes
+  register: packages_result

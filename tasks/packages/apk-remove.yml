@@ -1,0 +1,8 @@
+---
+
+- name: Removing {{ description | default('additional') }} packages (APK)
+  apk:
+    state: absent
+    name: "{{ package_list }}"
+    update_cache: no
+  register: packages_result
