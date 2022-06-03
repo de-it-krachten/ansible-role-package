@@ -1,5 +1,7 @@
 ---
 
-exclude_paths: []
+exclude_paths:
+  - molecule/default/molecule-test.yml
+
 skip_list:
   - fqcn-builtins

@@ -1,8 +1,7 @@
 ---
 
-- name: Update package list (DNF)
-  dnf:
-    list: updates
+- name: Update package list (APK)
+  apk:
     update_cache: true
   become: yes
   tags: molecule-idempotence-notest

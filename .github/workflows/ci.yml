@@ -32,6 +32,7 @@ jobs:
         with:
           python-version: '3.x'
 
+
       - name: Show runner info
         run: |
           hostname -f
@@ -43,7 +44,7 @@ jobs:
         run: sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld
 
       - name: Install test dependencies.
-        run: pip3 install ansible ansible-lint==5.4.0 yamllint jmespath
+        run: pip3 install ansible ansible-lint==5.4.0 yamllint jmespath e2j2 yq
 
       - name: Lint code.
         run: |
@@ -70,6 +71,10 @@ jobs:
             playbook: converge.yml
           - distro: ubuntu2004
             playbook: converge.yml
+          - distro: ubuntu2204
+            playbook: converge.yml
+          - distro: alpine3
+            playbook: converge.yml
 
     steps:
       - name: Check out the codebase.
@@ -82,6 +87,7 @@ jobs:
         with:
           python-version: '3.x'
 
+
       - name: Show runner info
         run: |
           hostname -f
@@ -93,14 +99,28 @@ jobs:
         run: sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld
 
       - name: Install test dependencies.
-        run: pip3 install ansible ansible-lint==5.4.0 molecule[docker] docker yamllint jmespath
+        run: pip3 install ansible ansible-lint==5.4.0 molecule[docker] docker yamllint jmespath e2j2 yq
 
       - name: Set-up github runner
         run: |
           sudo modprobe ip6table_filter
 
+      - name: Retrieve wrapper molecule scripts
+        run: |
+          set -e
+          sudo apt install curl
+          sudo curl -s -o /usr/local/bin/ansible-galaxy.sh \
+            https://raw.githubusercontent.com/de-it-krachten/ansible-role-molecule/dev/files/ansible-galaxy.sh
+          sudo curl -s -o /usr/local/bin/ansible-requirements-clean.sh \
+            https://raw.githubusercontent.com/de-it-krachten/ansible-role-molecule/dev/files/ansible-requirements-clean.sh
+          sudo curl -s -o /usr/local/bin/molecule-test.sh \
+            https://raw.githubusercontent.com/de-it-krachten/ansible-role-molecule/dev/files/molecule-test.sh
+          sudo chmod 755 /usr/local/bin/ansible-galaxy.sh
+          sudo chmod 755 /usr/local/bin/ansible-requirements-clean.sh
+          sudo chmod 755 /usr/local/bin/molecule-test.sh
+
       - name: Run Molecule tests.
-        run: molecule test
+        run: molecule-test.sh
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'

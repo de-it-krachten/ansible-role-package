@@ -1,11 +1,26 @@
+---
+
 generic:
   role_description: |
     Role to make package management easier.
-    Supports dnf, yum, apt and pip
+    Supports dnf, yum, apt apk and pip
+
+platforms_add:
+  - name: Alpine 3
+    image: alpine3
+
+molecule:
+  platforms_add:
+    - name: alpine3
+      image: robertdebock/alpine:latest
+      pre_build_image: false
 ci_templates:
   converge.yml:
     force: false
   requirements.yml:
     force: false
+#  Dockerfile.j2:
+#    force: false
+
 github:
   fail_fast: false

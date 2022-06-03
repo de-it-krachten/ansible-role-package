@@ -4,11 +4,10 @@
 # ansible-role-package
 
 Role to make package management easier.
-Supports dnf, yum, apt and pip
+Supports dnf, yum, apt apk and pip
 
 
-Platforms
---------------
+## Platforms
 
 Supported platforms
 
@@ -21,12 +20,14 @@ Supported platforms
 - Debian 11 (Bullseye)
 - Ubuntu 18.04 LTS
 - Ubuntu 20.04 LTS
+- Ubuntu 22.04 LTS
+- Alpine 3
 
 Note:
 <sup>1</sup> : no automated testing is performed on these platforms
 
-Role Variables
---------------
+## Role Variables
+### defaults/main.yml
 <pre><code>
 # Package manager to use (defaults to OS default)
 package_mgr: "{{ ansible_pkg_mgr }}"
@@ -46,9 +47,9 @@ package_apt_cache_valid_time: 3600
 </pre></code>
 
 
-Example Playbook
-----------------
 
+## Example Playbook
+### molecule/default/converge.yml
 <pre><code>
 - name: sample playbook for role 'package'
   hosts: all
@@ -135,6 +136,5 @@ Example Playbook
         package_mgr: pip
         package_pip_cmd: /tmp/venv/env1/bin/pip3
         package_list:
-          - lxml
           - dnspython
 </pre></code>

@@ -4,3 +4,5 @@
   yum:
     list: updates
     update_cache: true
+  become: yes
+  tags: molecule-idempotence-notest

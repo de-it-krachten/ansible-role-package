@@ -4,10 +4,29 @@
   hosts: all
   become: yes
   vars:
-    proxy_use: "{{ lookup('env', 'proxy_use') | default(False, True) | bool }}"
-    proxy_url: "{{ lookup('env', 'proxy_url') | default('http://127.0.0.1:3128', True) }}"
-    molecule_distro: "{{ lookup('env', 'MOLECULE_DISTRO') }}"
+    proxy_url: "{{ lookup('env', 'HTTPS_PROXY') | default('') }}"
+    proxy_use: "{{ True if ( proxy_url is defined and proxy_url|length > 0 ) else False }}"
+    systemctl_alternative: False
   tasks:
+
+    - name: Define molecule distro (Ubuntu)
+      set_fact:
+        molecule_distro: "{{ (ansible_distribution|lower) + (ansible_distribution_version|regex_replace('\\.')) }}"
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Define molecule distro (Rest)
+      set_fact:
+        molecule_distro: "{{ (ansible_distribution|lower) + ansible_distribution_major_version }}"
+      when: ansible_distribution != 'Ubuntu'
+
+    - name: Show settings
+      debug:
+        msg:
+          molecule_distro: "{{ molecule_distro }}"
+          proxy_use: "{{ proxy_use }}"
+          proxy_url: "{{ proxy_url }}"
+          prepare_firewall: "{{ prepare_firewall | default(False) }}"
+          update_all: "{{ update_all | default(False) }}"
 
     - block:
 
@@ -26,19 +45,22 @@
         - name: Update APT cache
           apt:
             update_cache: yes
-            cache_valid_time: 1
+            cache_valid_time: 0
+
+        - name: Upgrade APT packages
+          apt:
+            force_apt_get: yes
+            upgrade: yes
+          when: update_all is defined and update_all|bool
 
         - name: Install default packages
           package:
             name:
+              - lsb-release
+              - netbase
               - gnupg
               - ssh
             state: present
-
-        - name: Update APT cache
-          apt:
-            update_cache: yes
-            cache_valid_time: 1
 
       when: ansible_os_family == 'Debian'
 
@@ -54,6 +76,14 @@
         - name: Update YUM cache  # noqa command-instead-of-module
           command: yum makecache
           changed_when: false
+          args:
+            warn: false
+
+        - name: Upgrade YUM packages  # noqa package-latest
+          yum:
+            name: '*'
+            state: latest
+          when: update_all is defined and update_all|bool
 
         - name: Install default packages
           package:
@@ -72,6 +102,34 @@
 
     - block:
 
+        # Switch to CentOS 8 vault mirrors
+        - name: Get all repo files
+          find:
+            paths: /etc/yum.repos.d
+            patterns: 'CentOS-Linux-*'
+          register: _repo
+          when: ansible_distribution == 'CentOS'
+
+        - name: Update repo files to point to CentOS vault mirror (1)
+          replace:
+            path: "{{ item.path }}"
+            regexp: "^mirrorlist"
+            replace: "#mirrorlist"
+          loop: "{{ _repo.files }}"
+          loop_control:
+            label: "{{ item.path }}"
+          when: ansible_distribution == 'CentOS'
+
+        - name: Update repo files to point to CentOS vault mirror (2)
+          replace:
+            path: "{{ item.path }}"
+            regexp: "^#baseurl=http://mirror.centos.org"
+            replace: "baseurl=http://vault.epel.cloud"
+          loop: "{{ _repo.files }}"
+          loop_control:
+            label: "{{ item.path }}"
+          when: ansible_distribution == 'CentOS'
+
         - name: Configure DNF to use proxy
           lineinfile:
             path: /etc/dnf/dnf.conf
@@ -82,6 +140,12 @@
         - name: Update DNF cache
           dnf:
             update_cache: yes
+
+        - name: Upgrade DNF packages  # noqa package-latest
+          dnf:
+            name: '*'
+            state: latest
+          when: update_all is defined and update_all|bool
 
         - name: Install default packages
           package:
@@ -114,7 +178,7 @@
         - name: Install ufw
           include_role:
             name: ufw
-          when: molecule_distro in [ 'debian11', 'ubuntu2004' ]
+          when: molecule_distro in [ 'debian11', 'ubuntu2004', 'ubuntu2204' ]
 
         - name: Install firewalld
           include_role:

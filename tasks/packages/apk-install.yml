@@ -1,0 +1,9 @@
+---
+
+- name: Installing {{ description | default('additional') }} packages (APK)
+  apk:
+    state: present
+    name: "{{ package_list }}"
+    no_cache: yes
+  become: yes
+  register: packages_result
