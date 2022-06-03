@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.3.0...v1.4.0) (2022-06-03)
+
+
+### Features
+
+* add support for apk (Alpine) ([068dc1f](https://github.com/de-it-krachten/ansible-role-package/commit/068dc1fd7290ab1547f849fe3a40c80878675151))
+
 # [1.3.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.2.1...v1.3.0) (2022-04-25)
 
 
