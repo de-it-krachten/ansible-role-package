@@ -15,3 +15,6 @@ package_pip_cmd: /usr/bin/pip3
 
 # max validity of apt cache
 package_apt_cache_valid_time: 3600
+
+# package repositories to disable during dnf/yum tasks
+#package_disablerepo: epel
