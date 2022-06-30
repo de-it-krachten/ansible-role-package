@@ -4,5 +4,7 @@
   dnf:
     name: "*"
     state: latest
+    disablerepo: "{{ package_disablerepo | default(omit) }}"
+    disable_gpg_check: "{{ package_disable_gpg_check | default(disable_gpg_check) | default('no') }}"
   become: yes
   register: packages_result
