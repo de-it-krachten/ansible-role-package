@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.4.0...v1.5.0) (2022-06-30)
+
+
+### Features
+
+* add support for disabling DNF/YUM repositories duting install/upgrade ([e5fa2de](https://github.com/de-it-krachten/ansible-role-package/commit/e5fa2de84d655130203ea3fcbc01e343bd5ee5d0))
+
 # [1.4.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.3.0...v1.4.0) (2022-06-03)
 
 
