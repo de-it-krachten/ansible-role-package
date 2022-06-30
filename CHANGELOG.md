@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.5.0...v1.6.0) (2022-06-30)
+
+
+### Features
+
+* add http proxy support ([d9a0727](https://github.com/de-it-krachten/ansible-role-package/commit/d9a07275864525e24a4894346e154a5749eaaa0c))
+
 # [1.5.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.4.0...v1.5.0) (2022-06-30)
 
 
