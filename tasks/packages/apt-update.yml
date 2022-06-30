@@ -6,5 +6,12 @@
     update_cache: yes
     cache_valid_time: >-
       {{ package_apt_cache_valid_time | int }}
+  environment:
+    HTTPS_PROXY: "{{ package_https_proxy }}"
+    HTTP_PROXY:  "{{ package_http_proxy }}"
+    NO_PROXY:    "{{ package_no_proxy }}"
+    https_proxy: "{{ package_https_proxy }}"
+    http_proxy:  "{{ package_http_proxy }}"
+    no_proxy:    "{{ package_no_proxy }}"
   become: yes
   tags: molecule-idempotence-notest

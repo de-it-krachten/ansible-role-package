@@ -8,5 +8,12 @@
     cache_valid_time: "{{ cache_valid_time | default(3600) }}"
     install_recommends: "{{ install_recommends | default(omit) }}"
     purge: "{{ purge | default(omit) }}"
+  environment:
+    HTTPS_PROXY: "{{ package_https_proxy }}"
+    HTTP_PROXY:  "{{ package_http_proxy }}"
+    NO_PROXY:    "{{ package_no_proxy }}"
+    https_proxy: "{{ package_https_proxy }}"
+    http_proxy:  "{{ package_http_proxy }}"
+    no_proxy:    "{{ package_no_proxy }}"
   become: yes
   register: packages_result

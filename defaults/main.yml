@@ -18,3 +18,8 @@ package_apt_cache_valid_time: 3600
 
 # package repositories to disable during dnf/yum tasks
 #package_disablerepo: epel
+
+# proxy url for installing & updating packages
+package_https_proxy: "{{ https_proxy | default('') }}"
+package_http_proxy: "{{ http_proxy | default('') }}"
+package_no_proxy: "{{ no_proxy | default('localhost,127.0.0.1') }}"
