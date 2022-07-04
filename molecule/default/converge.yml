@@ -5,7 +5,7 @@
   vars:
     packages_add:
       - rsync
-      - curl
+      - zip
     packages_rm:
       - patch
     python_virtualenv_root: /tmp/venv
