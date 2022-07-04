@@ -19,7 +19,8 @@ platforms:
 ci_templates:
   converge.yml:
     force: false
-  requirements.yml:
-    force: false
-#  Dockerfile.j2:
-#    force: false
+
+molecule:
+  requirements:
+    roles_extra:
+      - python

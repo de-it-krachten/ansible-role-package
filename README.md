@@ -15,7 +15,6 @@ Supported platforms
 - Red Hat Enterprise Linux 8<sup>1</sup>
 - Red Hat Enterprise Linux 9<sup>1</sup>
 - CentOS 7
-- CentOS 8
 - RockyLinux 8
 - OracleLinux 8
 - AlmaLinux 8
@@ -70,7 +69,7 @@ package_no_proxy: "{{ no_proxy | default('localhost,127.0.0.1') }}"
   vars:
     packages_add:
       - rsync
-      - curl
+      - zip
     packages_rm:
       - patch
     python_virtualenv_root: /tmp/venv
