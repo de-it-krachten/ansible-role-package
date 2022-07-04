@@ -5,15 +5,17 @@ generic:
     Role to make package management easier.
     Supports dnf, yum, apt apk and pip
 
-platforms_add:
-  - name: Alpine 3
-    image: alpine3
+platforms:
+  alpine:
+    name: Alpine 3
+    ci: true
+    supported: true
+    image: "robertdebock/alpine:latest"
+    pre_build_image: false
+    galaxy:
+      name: Alpine
+      version: all
 
-molecule:
-  platforms_add:
-    - name: alpine3
-      image: robertdebock/alpine:latest
-      pre_build_image: false
 ci_templates:
   converge.yml:
     force: false
@@ -21,6 +23,3 @@ ci_templates:
     force: false
 #  Dockerfile.j2:
 #    force: false
-
-github:
-  fail_fast: false

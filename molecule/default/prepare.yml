@@ -10,6 +10,29 @@
     http_proxy: "{{ lookup('env', 'HTTP_PROXY') | default('') }}"
     no_proxy: "{{ lookup('env', 'NO_PROXY') | default('127.0.0.1,localhost') }}"
 
+    iptables_distros:
+      - debian10
+      - ubuntu1804
+      - rhel7
+      - centos7
+
+    ufw_distros:
+      - debian11
+      - ubuntu2004
+      - ubuntu2204
+
+    firewalld_distros:
+      - fedora35
+      - fedora36
+      - centos8
+      - centos9
+      - oraclelinux8
+      - oraclelinux9
+      - rocky8
+      - rocky9
+      - almalinux8
+      - almalinux9
+
     systemctl_alternative: False
   tasks:
 
@@ -103,11 +126,12 @@
               - openssh-server
               - openssh-clients
               - iproute
+              - hostname
             state: present
 
         - name: Activate epel repository
           include_role:
-            name: robertdebock.epel
+            name: epel
           when: activate_epel is defined and activate_epel|bool
 
       when: ansible_os_family == 'RedHat' and (ansible_distribution_major_version|int) < 8
@@ -162,6 +186,7 @@
         - name: Install default packages
           package:
             name:
+              - hostname
               - openssh-server
               - openssh-clients
               - iproute
@@ -169,13 +194,8 @@
 
         - name: Activate epel repository
           include_role:
-            name: robertdebock.epel
+            name: epel
           when: activate_epel is defined and activate_epel|bool
-
-        - name: Activate powertools repository
-          include_role:
-            name: robertdebock.powertools
-          when: activate_powertools is defined and activate_powertools|bool
 
       when: ansible_os_family == 'RedHat' and (ansible_distribution_major_version|int) >= 8
 
@@ -185,17 +205,17 @@
         - name: Install iptables
           include_role:
             name: iptables
-          when: molecule_distro in [ 'debian10', 'ubuntu1804', 'centos7' ]
+          when: molecule_distro in iptables_distros
 
         - name: Install ufw
           include_role:
             name: ufw
-          when: molecule_distro in [ 'debian11', 'ubuntu2004', 'ubuntu2204' ]
+          when: molecule_distro in ufw_distros
 
         - name: Install firewalld
           include_role:
             name: firewalld
-          when: molecule_distro in [ 'fedora34', 'fedora35', 'fedora36', 'centos8', 'oraclelinux8', 'rockylinux8', 'almalinux8' ]
+          when: molecule_distro in firewalld_distros
 
       when: prepare_firewall is defined and prepare_firewall|bool
 
