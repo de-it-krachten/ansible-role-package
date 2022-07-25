@@ -134,7 +134,7 @@ jobs:
             playbook: converge.yml
             # continue_on_error: false
             # failfast: true
-          - distro: alpine
+          - distro: alpine3
             playbook: converge.yml
             # continue_on_error: false
             # failfast: true

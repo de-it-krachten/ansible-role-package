@@ -26,6 +26,6 @@
   image: geerlingguy/docker-fedora35-ansible:latest
 - name: fedora36
   image: geerlingguy/docker-fedora36-ansible:latest
-- name: alpine
+- name: alpine3
   image: robertdebock/alpine:latest
   pre_build_image: false
