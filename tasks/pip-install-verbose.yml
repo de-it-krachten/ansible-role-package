@@ -21,7 +21,7 @@
 - name: Including task for package manager {{ package_mgr }}
   include_tasks: "packages/{{ package_mgr }}-{{ _package_mode }}.yml"
 
-- name: Show changes
+- name: Show changes  # noqa no-handler
   block:
 
     - name: Get list of installed pip packages (post)
