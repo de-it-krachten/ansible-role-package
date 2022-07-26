@@ -19,7 +19,7 @@ Supported platforms
 - RockyLinux 9
 - OracleLinux 8
 - AlmaLinux 8
-- AlmaLinux 9
+- AlmaLinux 9<sup>1</sup>
 - Debian 10 (Buster)
 - Debian 11 (Bullseye)
 - Ubuntu 18.04 LTS
@@ -73,6 +73,7 @@ package_no_proxy: "{{ no_proxy | default('localhost,127.0.0.1') }}"
       - zip
     packages_rm:
       - patch
+    # pip_site_upgrade: True
     python_virtualenv_root: /tmp/venv
     python_virtualenvs:
       - name: env1

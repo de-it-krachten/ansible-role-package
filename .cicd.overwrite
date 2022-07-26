@@ -6,6 +6,9 @@ generic:
     Supports dnf, yum, apt apk and pip
 
 platforms:
+  almalinux9:
+    ci: false
+    supported: true
   alpine3:
     ci: true
     supported: true
@@ -18,6 +21,9 @@ molecule:
   prepare:
     vars:
       activate_epel: true
+  converge:
+    roles:
+      - python
   requirements:
     roles_extra:
       - python
