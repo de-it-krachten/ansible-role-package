@@ -8,6 +8,7 @@
       - zip
     packages_rm:
       - patch
+    # pip_site_upgrade: True
     python_virtualenv_root: /tmp/venv
     python_virtualenvs:
       - name: env1
