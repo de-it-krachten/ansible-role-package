@@ -1,3 +1,15 @@
+# [1.7.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.6.0...v1.7.0) (2022-07-28)
+
+
+### Bug Fixes
+
+* stop performing CI on AlmaLinux 9 due to python issues ([828adf2](https://github.com/de-it-krachten/ansible-role-package/commit/828adf27655fc6e50bdcad788e9b67fd3820d5c2))
+
+
+### Features
+
+* Implement ansible-lint v6 support ([2595dd7](https://github.com/de-it-krachten/ansible-role-package/commit/2595dd71498971f67c1569d5cc26363e97315fbb))
+
 # [1.6.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.5.0...v1.6.0) (2022-06-30)
 
 
