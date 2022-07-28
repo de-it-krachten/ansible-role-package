@@ -6,21 +6,24 @@ generic:
     Supports dnf, yum, apt apk and pip
 
 platforms:
-  alpine:
-    name: Alpine 3
+  almalinux9:
+    ci: false
+    supported: true
+  alpine3:
     ci: true
     supported: true
-    image: "robertdebock/alpine:latest"
-    pre_build_image: false
-    galaxy:
-      name: Alpine
-      version: all
 
 ci_templates:
   converge.yml:
     force: false
 
 molecule:
+  prepare:
+    vars:
+      activate_epel: true
+  converge:
+    roles:
+      - python
   requirements:
     roles_extra:
       - python

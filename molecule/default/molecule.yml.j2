@@ -7,10 +7,12 @@ driver:
 lint: |
   set -e
   yamllint .
+  ln -s molecule/default/requirements.yml
   ansible-lint
+  rm -f requirements.yml
 platforms:
 {% for platform in MOLECULE_DISTROS %}
-  - name: package-{{ platform.name }}
+  - name: package-{{ platform.name }}-node1
     image: "{{ platform.image }}"
     rhsm: {{ platform.rhsm | default(False) }}
     command: ${MOLECULE_DOCKER_COMMAND:-""}
@@ -22,6 +24,12 @@ platforms:
 {% endfor %}
 provisioner:
   name: ansible
+{% if MOLECULE_ANSIBLE_ARGS is defined %}
+  ansible_args:
+{% for molecule_ansible_arg in MOLECULE_ANSIBLE_ARGS %}
+    - {{ molecule_ansible_arg }}
+{% endfor %}
+{% endif %}
   env:
     ANSIBLE_PIPELINING: "True"
   lint:
@@ -29,9 +37,8 @@ provisioner:
   playbooks:
     converge: ${MOLECULE_PLAYBOOK:-converge.yml}
   inventory:
-    host_vars:
-      package-rockylinux8:
-        ansible_python_interpreter: /usr/libexec/platform-python
+    group_vars: {}
+    host_vars: {}
 scenario:
   name: default
 verifier:
