@@ -1,7 +1,7 @@
 ---
 
-- name: Removing {{ description | default('additional') }} packages (DNF)
-  dnf:
+- name: Removing {{ description | default('additional') }} packages (DNF)  # noqa name[template]
+  ansible.builtin.dnf:
     state: absent
     name: "{{ package_list }}"
   environment:

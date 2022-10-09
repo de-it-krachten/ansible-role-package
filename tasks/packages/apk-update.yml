@@ -1,7 +1,7 @@
 ---
 
 - name: Update package list (APK)
-  apk:
+  community.general.apk:
     update_cache: true
   environment:
     HTTPS_PROXY: "{{ package_https_proxy }}"

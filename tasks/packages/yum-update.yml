@@ -1,7 +1,7 @@
 ---
 
 - name: Update package list (YUM)
-  yum:
+  ansible.builtin.yum:
     list: updates
     update_cache: true
   environment:

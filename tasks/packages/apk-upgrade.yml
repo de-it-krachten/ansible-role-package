@@ -1,7 +1,7 @@
 ---
 
-- name: Upgrade packages (APK) # noqa 403
-  apk:
+- name: Upgrade packages (APK) # noqa package-latest
+  community.general.apk:
     upgrade: yes
     update_cache: no
   environment:

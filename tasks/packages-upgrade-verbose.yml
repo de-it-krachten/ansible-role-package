@@ -1,1 +1,68 @@
-packages-install-verbose.yml
+---
+
+- name: Updating {{ package_mgr }} package list  # noqa name[template]
+  ansible.builtin.include_tasks: "packages/{{ package_mgr }}-update.yml"
+  when: package_update | bool
+
+- name: Reset package mode
+  ansible.builtin.set_fact:
+    _package_mode: "{{ package_mode | regex_replace('-verbose') }}"
+
+- name: Get list of installed OS packages (pre)
+  ansible.builtin.package_facts:
+
+- name: Save the package info in simplified form (pre)
+  ansible.builtin.set_fact:
+    package_pre: "{{ ansible_facts.packages }}"
+    package_pre1: "{{ ansible_facts.packages | json_query(q1) }}"
+    package_pre2: "{{ ansible_facts.packages | json_query(q2) }}"
+  vars:
+    q1: '*[].name'
+    q2: '*[].{ name: name, version: version}'
+
+- name: Including task for package manager {{ package_mgr }}
+  ansible.builtin.include_tasks: "packages/{{ package_mgr }}-{{ _package_mode }}.yml"
+
+- name: Show changes
+  when: packages_result is defined and packages_result.changed
+  block:
+
+    - name: Get list of installed OS packages (post)
+      ansible.builtin.package_facts:
+
+    - name: Save the package info in simplified form (post)
+      ansible.builtin.set_fact:
+        package_post: "{{ ansible_facts.packages }}"
+        package_post1: "{{ ansible_facts.packages | json_query(q1) }}"
+        package_post2: "{{ ansible_facts.packages | json_query(q2) }}"
+      vars:
+        q1: '*[].name'
+        q2: '*[].{ name: name, version: version}'
+
+    - name: Create lists of installed/remove/changed packages
+      ansible.builtin.set_fact:
+        _installed: "{{ package_post1 | difference(package_pre1) | sort }}"
+        _removed: "{{ package_pre1 | difference(package_post1) | sort }}"
+        _updated: >
+          [
+            {% for item in (package_pre1 | intersect(package_post1)) -%}
+            {% if (package_pre[item] | json_query('[].version') | first) != (package_post[item] | json_query('[].version') | first) %}
+            "{{ item }}"{% if not loop.last %},{% endif %}
+            {% endif %}
+            {% endfor %}
+          ]
+
+    - name: Packages installed
+      ansible.builtin.debug:
+        msg: "{{ _installed }}"
+      when: _installed | length > 0
+
+    - name: Packages removed
+      ansible.builtin.debug:
+        msg: "{{ _removed }}"
+      when: _removed | length > 0
+
+    - name: Packages upgraded
+      ansible.builtin.debug:
+        msg: "{{ _updated }}"
+      when: _updated | length > 0

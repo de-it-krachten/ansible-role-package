@@ -1,7 +1,7 @@
 ---
 
-- name: Upgrade packages (YUM) # noqa 403
-  yum:
+- name: Upgrade packages (YUM) # noqa package-latest
+  ansible.builtin.yum:
     name: '*'
     state: latest
     disablerepo: "{{ package_disablerepo | default(omit) }}"

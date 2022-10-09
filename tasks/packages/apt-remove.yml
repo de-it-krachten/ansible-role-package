@@ -1,7 +1,7 @@
 ---
 
-- name: Removing {{ description | default('additional') }} packages (APT)
-  apt:
+- name: Removing {{ description | default('additional') }} packages (APT)  # noqa name[template]
+  ansible.builtin.apt:
     state: absent
     name: "{{ package_list }}"
   environment:

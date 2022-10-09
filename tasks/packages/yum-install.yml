@@ -1,7 +1,7 @@
 ---
 
-- name: Installing {{ description | default('additional') }} packages (YUM)
-  yum:
+- name: Installing {{ description | default('additional') }} packages (YUM)  # noqa name[template]
+  ansible.builtin.yum:
     state: present
     name: "{{ package_list }}"
     disablerepo: "{{ package_disablerepo | default(omit) }}"

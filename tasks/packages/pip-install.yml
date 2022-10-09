@@ -1,7 +1,7 @@
 ---
 
 - name: Installing pip packages from pypi
-  pip:
+  ansible.builtin.pip:
     name: "{{ package_list }}"
     state: present
     executable: "{{ package_pip_cmd }}"

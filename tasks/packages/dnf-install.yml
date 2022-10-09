@@ -1,7 +1,7 @@
 ---
 
-- name: Installing {{ description | default('additional') }} packages (DNF)
-  dnf:
+- name: Installing {{ description | default('additional') }} packages (DNF)  # noqa name[template]
+  ansible.builtin.dnf:
     state: present
     name: "{{ package_list }}"
     disablerepo: "{{ package_disablerepo | default(omit) }}"

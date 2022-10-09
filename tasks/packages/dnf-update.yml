@@ -1,7 +1,7 @@
 ---
 
 - name: Update package list (DNF)
-  dnf:
+  ansible.builtin.dnf:
     list: updates
     update_cache: true
   environment:

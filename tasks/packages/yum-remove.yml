@@ -1,7 +1,7 @@
 ---
 
-- name: Removing {{ description | default('additional') }} packages (YUM)
-  yum:
+- name: Removing {{ description | default('additional') }} packages (YUM)  # noqa name[template]
+  ansible.builtin.yum:
     state: absent
     name: "{{ package_list }}"
   environment:
