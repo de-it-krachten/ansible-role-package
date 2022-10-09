@@ -1,6 +1,6 @@
 ---
 
-- name: Upgrade packages (YUM) # noqa package-latest
+- name: Upgrade packages (YUM)  # noqa package-latest
   ansible.builtin.yum:
     name: '*'
     state: latest
@@ -8,10 +8,10 @@
     disable_gpg_check: "{{ package_disable_gpg_check | default(disable_gpg_check) | default('no') }}"
   environment:
     HTTPS_PROXY: "{{ package_https_proxy }}"
-    HTTP_PROXY:  "{{ package_http_proxy }}"
-    NO_PROXY:    "{{ package_no_proxy }}"
+    HTTP_PROXY: "{{ package_http_proxy }}"
+    NO_PROXY: "{{ package_no_proxy }}"
     https_proxy: "{{ package_https_proxy }}"
-    http_proxy:  "{{ package_http_proxy }}"
-    no_proxy:    "{{ package_no_proxy }}"
+    http_proxy: "{{ package_http_proxy }}"
+    no_proxy: "{{ package_no_proxy }}"
   become: yes
   register: packages_result

@@ -7,6 +7,16 @@ Role to make package management easier.
 Supports dnf, yum, apt apk and pip
 
 
+
+## Dependencies
+
+#### Roles
+None
+
+#### Collections
+- community.general
+- community.general
+
 ## Platforms
 
 Supported platforms
@@ -52,13 +62,14 @@ package_pip_cmd: /usr/bin/pip3
 package_apt_cache_valid_time: 3600
 
 # package repositories to disable during dnf/yum tasks
-#package_disablerepo: epel
+# package_disablerepo: epel
 
 # proxy url for installing & updating packages
 package_https_proxy: "{{ https_proxy | default('') }}"
 package_http_proxy: "{{ http_proxy | default('') }}"
 package_no_proxy: "{{ no_proxy | default('localhost,127.0.0.1') }}"
 </pre></code>
+
 
 
 
