@@ -1,16 +1,16 @@
 ---
 
 - name: Reset package mode
-  set_fact:
+  ansible.builtin.set_fact:
     _package_mode: "{{ package_mode | regex_replace('-verbose') }}"
 
 - name: Get list of installed pip packages (pre)
-  pip_package_info:
+  community.general.pip_package_info:
     clients: "{{ package_pip_cmd }}"
   register: _pip_packages1
 
 - name: Save the package info in simplified form (pre)
-  set_fact:
+  ansible.builtin.set_fact:
     package_pre: "{{ _pip_packages1['packages'][package_pip_cmd] }}"
     package_pre1: "{{ _pip_packages1['packages'][package_pip_cmd] | json_query(q1) }}"
     package_pre2: "{{ _pip_packages1['packages'][package_pip_cmd] | json_query(q2) }}"
@@ -19,18 +19,19 @@
     q2: '*[].{ name: name, version: version}'
 
 - name: Including task for package manager {{ package_mgr }}
-  include_tasks: "packages/{{ package_mgr }}-{{ _package_mode }}.yml"
+  ansible.builtin.include_tasks: "packages/{{ package_mgr }}-{{ _package_mode }}.yml"
 
 - name: Show changes  # noqa no-handler
+  when: pip_packages_result.changed
   block:
 
     - name: Get list of installed pip packages (post)
-      pip_package_info:
+      community.general.pip_package_info:
         clients: "{{ package_pip_cmd }}"
       register: _pip_packages2
 
     - name: Save the package info in simplified form (post)
-      set_fact:
+      ansible.builtin.set_fact:
         package_post: "{{ _pip_packages2['packages'][package_pip_cmd] }}"
         package_post1: "{{ _pip_packages2['packages'][package_pip_cmd] | json_query(q1) }}"
         package_post2: "{{ _pip_packages2['packages'][package_pip_cmd] | json_query(q2) }}"
@@ -39,31 +40,29 @@
         q2: '*[].{ name: name, version: version}'
 
     - name: Create lists of installed/remove/changed packages
-      set_fact:
+      ansible.builtin.set_fact:
         _installed: "{{ package_post1 | difference(package_pre1) | sort }}"
         _removed: "{{ package_pre1 | difference(package_post1) | sort }}"
         _updated: >
           [
             {% for item in (package_pre1 | intersect(package_post1)) -%}
-            {% if (package_pre[item]|json_query('[].version')|first) != (package_post[item]|json_query('[].version')|first) %}
+            {% if (package_pre[item] | json_query('[].version') | first) != (package_post[item] | json_query('[].version') | first) %}
             "{{ item }}"{% if not loop.last %},{% endif %}
             {% endif %}
             {% endfor %}
           ]
 
     - name: Packages installed
-      debug:
+      ansible.builtin.debug:
         msg: "{{ _installed }}"
-      when: _installed|length > 0
+      when: _installed | length > 0
 
     - name: Packages removed
-      debug:
+      ansible.builtin.debug:
         msg: "{{ _removed }}"
-      when: _removed|length > 0
+      when: _removed | length > 0
 
     - name: Packages upgraded
-      debug:
+      ansible.builtin.debug:
         msg: "{{ _updated }}"
-      when: _updated|length > 0
-
-  when: pip_packages_result.changed
+      when: _updated | length > 0

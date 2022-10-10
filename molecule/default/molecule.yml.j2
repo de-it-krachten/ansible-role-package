@@ -7,7 +7,7 @@ driver:
 lint: |
   set -e
   yamllint .
-  ln -s molecule/default/requirements.yml
+  ln -fs molecule/default/requirements.yml
   ansible-lint
   rm -f requirements.yml
 platforms:
