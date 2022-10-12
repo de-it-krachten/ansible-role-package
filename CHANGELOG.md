@@ -1,3 +1,11 @@
+# [1.8.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.7.0...v1.8.0) (2022-10-12)
+
+
+### Features
+
+* Move to FQCN ([a231d13](https://github.com/de-it-krachten/ansible-role-package/commit/a231d13974a9c52b65b96fad7f8d2fd45bf1275b))
+* Update CI to latest standards ([a6e1f50](https://github.com/de-it-krachten/ansible-role-package/commit/a6e1f505e758b07260c9fdc71b3d7bfc7ecacab0))
+
 # [1.7.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.6.0...v1.7.0) (2022-07-28)
 
 
