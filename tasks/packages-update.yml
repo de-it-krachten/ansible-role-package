@@ -1,4 +1,4 @@
 ---
 
-- name: Updating {{ package_mgr }} package list
-  include_tasks: "packages/{{ package_mgr }}-update.yml"
+- name: Updating {{ package_mgr }} package list  # noqa name[template]
+  ansible.builtin.include_tasks: "packages/{{ package_mgr }}-update.yml"
