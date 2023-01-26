@@ -8,6 +8,8 @@
   image: geerlingguy/docker-rockylinux9-ansible:latest
 - name: oraclelinux8
   image: dropveter/oraclelinux8-ansible
+- name: oraclelinux9
+  image: dropveter/oraclelinux9-ansible
 - name: almalinux8
   image: dropveter/almalinux8-ansible
 - name: debian10
@@ -20,10 +22,10 @@
   image: geerlingguy/docker-ubuntu2004-ansible:latest
 - name: ubuntu2204
   image: geerlingguy/docker-ubuntu2204-ansible:latest
-- name: fedora35
-  image: geerlingguy/docker-fedora35-ansible:latest
 - name: fedora36
   image: geerlingguy/docker-fedora36-ansible:latest
+- name: fedora37
+  image: geerlingguy/docker-fedora37-ansible:latest
 - name: alpine3
   image: robertdebock/alpine:latest
   pre_build_image: false

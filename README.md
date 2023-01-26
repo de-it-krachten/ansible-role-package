@@ -15,7 +15,6 @@ None
 
 #### Collections
 - community.general
-- community.general
 
 ## Platforms
 
@@ -28,6 +27,7 @@ Supported platforms
 - RockyLinux 8
 - RockyLinux 9
 - OracleLinux 8
+- OracleLinux 9
 - AlmaLinux 8
 - AlmaLinux 9<sup>1</sup>
 - Debian 10 (Buster)
@@ -35,8 +35,8 @@ Supported platforms
 - Ubuntu 18.04 LTS
 - Ubuntu 20.04 LTS
 - Ubuntu 22.04 LTS
-- Fedora 35
 - Fedora 36
+- Fedora 37
 - Alpine 3
 
 Note:
