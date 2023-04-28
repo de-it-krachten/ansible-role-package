@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.8.0...v1.9.0) (2023-04-28)
+
+
+### Features
+
+* Move to namespaced role names ([95a2e67](https://github.com/de-it-krachten/ansible-role-package/commit/95a2e6721198c16f03e9b7b047bdc267783d79d8))
+
 # [1.8.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.7.0...v1.8.0) (2022-10-12)
 
 
