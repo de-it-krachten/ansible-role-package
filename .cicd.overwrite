@@ -23,7 +23,7 @@ molecule:
       activate_epel: true
   converge:
     roles:
-      - python
+      - deitkrachten.python
   requirements:
     roles_extra:
-      - python
+      - deitkrachten.python
