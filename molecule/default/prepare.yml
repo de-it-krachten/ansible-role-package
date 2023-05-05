@@ -272,8 +272,8 @@
       ansible.builtin.include_role:
         name: deitkrachten.python
       vars:
-        python38: false
-        python_package_install_optional: true
+        python38: "{{ install_python38 | default(False) }}"
+        python_package_install_optional: "{{ install_python_optional | default(True) }}"
       when: install_python is defined and install_python | bool
 
     - name: Firewall

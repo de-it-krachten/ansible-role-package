@@ -376,9 +376,13 @@ jobs:
       - name: Install test dependencies.
         run: |
           sudo rm -f /usr/bin/yq
+
+          pip3 install e2j2 yq
+          pip3 install "${{ matrix.ansible }}" "${{ matrix.ansible_lint }}" "ansible-compat<4" "molecule<5" yamllint jmespath
+
           echo "MOLECULE_DRIVER = $MOLECULE_DRIVER"
           if [[ $MOLECULE_DRIVER == 'hetznercloud' ]] ; then
-            pip3 install "${{ matrix.ansible }}" "${{ matrix.ansible_lint }}" molecule-hetznercloud yamllint jmespath e2j2 yq
+            pip3 install molecule-hetznercloud
             ansible-galaxy collection install hetzner.hcloud community.crypto
             site=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
             createyml_file=$site/molecule_hetznercloud/playbooks/create.yml
@@ -386,12 +390,15 @@ jobs:
             sudo apt install curl
             curl -s -o $createyml_file $createyml_url
           elif [[ $MOLECULE_DRIVER == 'vagrant' ]] ; then
-            pip3 install "${{ matrix.ansible }}" "${{ matrix.ansible_lint }}" molecule yamllint jmespath e2j2 yq
+            pip3 install molecule[vagrant]
           elif [[ $MOLECULE_DRIVER == 'podman' ]] ; then
-            pip3 install "${{ matrix.ansible }}" "${{ matrix.ansible_lint }}" molecule[podman] yamllint jmespath e2j2 yq
+            pip3 install molecule[podman]
           else
-            pip3 install "${{ matrix.ansible }}" "${{ matrix.ansible_lint }}" "molecule<5.0.0" molecule[docker] yamllint jmespath e2j2 yq
+            pip3 install molecule[docker]
           fi
+
+          pip3 install "requests<2.29" "urllib3<2"
+
         env:
           MOLECULE_DRIVER: ${{ vars.MOLECULE_DRIVER }}
 
