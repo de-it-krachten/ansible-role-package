@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.9.0...v1.10.0) (2023-07-03)
+
+
+### Features
+
+* Add support for SLES/OpenSUSE Leap 15 ([4288b57](https://github.com/de-it-krachten/ansible-role-package/commit/4288b57931a8c87395fda2db12bbbc99fea811a8))
+
 # [1.9.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.8.0...v1.9.0) (2023-04-28)
 
 
