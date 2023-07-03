@@ -1,0 +1,17 @@
+---
+
+- name: Upgrade packages (Zypper)  # noqa package-latest
+  community.general.zypper:
+    name: '*'
+    state: latest
+    disablerepo: "{{ package_disablerepo | default(omit) }}"
+    disable_gpg_check: "{{ package_disable_gpg_check | default(disable_gpg_check) | default('no') }}"
+  environment:
+    HTTPS_PROXY: "{{ package_https_proxy }}"
+    HTTP_PROXY: "{{ package_http_proxy }}"
+    NO_PROXY: "{{ package_no_proxy }}"
+    https_proxy: "{{ package_https_proxy }}"
+    http_proxy: "{{ package_http_proxy }}"
+    no_proxy: "{{ package_no_proxy }}"
+  become: yes
+  register: packages_result

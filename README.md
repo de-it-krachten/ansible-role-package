@@ -4,7 +4,7 @@
 # ansible-role-package
 
 Role to make package management easier.
-Supports dnf, yum, apt apk and pip
+Supports dnf, yum, apt, apk, zypper and pip
 
 
 
@@ -30,13 +30,14 @@ Supported platforms
 - OracleLinux 9
 - AlmaLinux 8
 - AlmaLinux 9<sup>1</sup>
+- SUSE Linux Enterprise<sup>1</sup>
+- openSUSE Leap 15
 - Debian 10 (Buster)
 - Debian 11 (Bullseye)
-- Ubuntu 18.04 LTS
 - Ubuntu 20.04 LTS
 - Ubuntu 22.04 LTS
-- Fedora 36
 - Fedora 37
+- Fedora 38
 - Alpine 3
 
 Note:
