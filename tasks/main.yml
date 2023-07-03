@@ -1,5 +1,8 @@
 ---
 
+- name: Prepare OS for management
+  ansible.builtin.include_tasks: prepare.yml
+
 - name: Import package list from older variable packages
   ansible.builtin.set_fact:
     package_list: "{{ package_list | default(packages) | default([]) }}"

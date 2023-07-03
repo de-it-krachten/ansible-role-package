@@ -1,0 +1,10 @@
+---
+
+- name: Install required packages
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - python-xml
+    - python3-xml
+    - python3-rpm

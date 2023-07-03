@@ -3,7 +3,7 @@
 generic:
   role_description: |
     Role to make package management easier.
-    Supports dnf, yum, apt apk and pip
+    Supports dnf, yum, apt, apk, zypper and pip
 
 platforms:
   almalinux9:
@@ -11,6 +11,12 @@ platforms:
     supported: true
   alpine3:
     ci: true
+    supported: true
+  opensuse15:
+    ci: true
+    supported: true
+  sles15:
+    ci: false
     supported: true
 
 ci_templates:
