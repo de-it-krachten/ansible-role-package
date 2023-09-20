@@ -5,7 +5,11 @@
 
 - name: Import package list from older variable packages
   ansible.builtin.set_fact:
-    package_list: "{{ package_list | default(packages) | default([]) }}"
+    __package_list: "{{ package_list | default(packages) | default([]) }}"
+
+- name: Show package list
+  ansible.builtin.debug:
+    msg: "{{ __package_list }}"
 
 - name: Define task list
   ansible.builtin.set_fact:

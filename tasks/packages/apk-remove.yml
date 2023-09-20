@@ -3,7 +3,7 @@
 - name: Removing {{ description | default('additional') }} packages (APK)  # noqa name[template]
   community.general.apk:
     state: absent
-    name: "{{ package_list }}"
+    name: "{{ __package_list }}"
     update_cache: no
   environment:
     HTTPS_PROXY: "{{ package_https_proxy }}"

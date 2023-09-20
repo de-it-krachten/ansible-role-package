@@ -3,7 +3,7 @@
 - name: Installing {{ description | default('additional') }} packages (APT)  # noqa name[template]
   ansible.builtin.apt:
     state: "{{ state | default('present') }}"
-    name: "{{ package_list }}"
+    name: "{{ __package_list }}"
     update_cache: "{{ update_cache | default('yes') }}"
     cache_valid_time: "{{ cache_valid_time | default(3600) }}"
     install_recommends: "{{ install_recommends | default(omit) }}"

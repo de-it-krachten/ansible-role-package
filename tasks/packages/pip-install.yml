@@ -2,7 +2,7 @@
 
 - name: Installing pip packages from pypi
   ansible.builtin.pip:
-    name: "{{ package_list }}"
+    name: "{{ __package_list }}"
     state: present
     executable: "{{ package_pip_cmd }}"
   environment:
