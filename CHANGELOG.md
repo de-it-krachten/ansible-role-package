@@ -1,3 +1,10 @@
+## [1.11.1](https://github.com/de-it-krachten/ansible-role-package/compare/v1.11.0...v1.11.1) (2023-09-20)
+
+
+### Bug Fixes
+
+* Resolved issue where package_list could not be overwritten at 2nd execution ([e7f6576](https://github.com/de-it-krachten/ansible-role-package/commit/e7f6576ee777e04a4d7ad5f4fb50028e28c7363a))
+
 # [1.11.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.10.0...v1.11.0) (2023-08-14)
 
 
