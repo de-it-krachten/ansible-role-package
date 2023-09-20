@@ -3,7 +3,7 @@
 - name: Removing {{ description | default('additional') }} packages (DNF)  # noqa name[template]
   ansible.builtin.dnf:
     state: absent
-    name: "{{ package_list }}"
+    name: "{{ __package_list }}"
   environment:
     HTTPS_PROXY: "{{ package_https_proxy }}"
     HTTP_PROXY: "{{ package_http_proxy }}"

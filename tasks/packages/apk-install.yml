@@ -3,7 +3,7 @@
 - name: Installing {{ description | default('additional') }} packages (APK)  # noqa name[template]
   community.general.apk:
     state: present
-    name: "{{ package_list }}"
+    name: "{{ __package_list }}"
     no_cache: yes
   environment:
     HTTPS_PROXY: "{{ package_https_proxy }}"

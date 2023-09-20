@@ -3,7 +3,7 @@
 - name: Removing {{ description | default('additional') }} packages (YUM)  # noqa name[template]
   ansible.builtin.yum:
     state: absent
-    name: "{{ package_list }}"
+    name: "{{ __package_list }}"
   environment:
     HTTPS_PROXY: "{{ package_https_proxy }}"
     HTTP_PROXY: "{{ package_http_proxy }}"
