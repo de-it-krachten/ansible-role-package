@@ -1,10 +1,12 @@
 ---
 
+# Generic
 generic:
   role_description: |
     Role to make package management easier.
     Supports dnf, yum, apt, apk, zypper and pip
 
+# Platforms
 platforms:
   almalinux9:
     ci: false
@@ -19,10 +21,12 @@ platforms:
     ci: false
     supported: true
 
+# CI templates
 ci_templates:
   converge.yml:
     force: false
 
+# Molecule
 molecule:
   prepare:
     vars:

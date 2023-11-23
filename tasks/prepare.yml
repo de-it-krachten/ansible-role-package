@@ -12,3 +12,7 @@
         - "family-{{ ansible_os_family }}.yml"
       paths:
         - 'prepare'
+
+- name: Do not execute this step a second time
+  ansible.builtin.set_fact:
+    package_prepare: false
