@@ -13,3 +13,7 @@
     no_proxy: "{{ package_no_proxy }}"
   become: yes
   tags: molecule-idempotence-notest
+  register: packages_result
+  retries: "{{ package_retries | int }}"
+  delay: "{{ package_delay | int }}"
+  until: not packages_result.failed

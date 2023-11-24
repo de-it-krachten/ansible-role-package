@@ -59,7 +59,8 @@
         name: ansible-role-package
       vars:
         package_mode: upgrade-verbose
-
+        package_delay: 15
+        package_retries: 2
 
     # pip
 

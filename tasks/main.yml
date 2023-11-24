@@ -2,6 +2,7 @@
 
 - name: Prepare OS for management
   ansible.builtin.include_tasks: prepare.yml
+  when: package_prepare | bool
 
 - name: Import package list from older variable packages
   ansible.builtin.set_fact:
@@ -10,6 +11,7 @@
 - name: Show package list
   ansible.builtin.debug:
     msg: "{{ __package_list }}"
+  when: __package_list | length > 0
 
 - name: Define task list
   ansible.builtin.set_fact:
