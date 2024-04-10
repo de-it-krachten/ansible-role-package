@@ -7,7 +7,7 @@
       - rsync
       - zip
     packages_rm:
-      - patch
+      - jq
     # pip_site_upgrade: True
     python_virtualenv_root: /tmp/venv
     python_virtualenvs:

@@ -93,7 +93,7 @@ package_no_proxy: "{{ no_proxy | default('localhost,127.0.0.1') }}"
       - rsync
       - zip
     packages_rm:
-      - patch
+      - jq
     python_virtualenv_root: /tmp/venv
     python_virtualenvs:
       - name: env1
