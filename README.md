@@ -32,7 +32,6 @@ Supported platforms
 - AlmaLinux 9<sup>1</sup>
 - SUSE Linux Enterprise 15<sup>1</sup>
 - openSUSE Leap 15
-- Debian 10 (Buster)<sup>1</sup>
 - Debian 11 (Bullseye)
 - Debian 12 (Bookworm)
 - Ubuntu 20.04 LTS
@@ -47,6 +46,15 @@ Note:
 ## Role Variables
 ### defaults/main.yml
 <pre><code>
+# Amount of retries
+package_retries: 0
+
+# Delay between retries
+package_delay: 10
+
+# Execute prepare steps for package management
+package_prepare: true
+
 # Package manager to use (defaults to OS default)
 package_mgr: "{{ ansible_pkg_mgr }}"
 
@@ -85,8 +93,7 @@ package_no_proxy: "{{ no_proxy | default('localhost,127.0.0.1') }}"
       - rsync
       - zip
     packages_rm:
-      - patch
-    # pip_site_upgrade: True
+      - jq
     python_virtualenv_root: /tmp/venv
     python_virtualenvs:
       - name: env1
@@ -97,51 +104,41 @@ package_no_proxy: "{{ no_proxy | default('localhost,127.0.0.1') }}"
   roles:
     - deitkrachten.python
   tasks:
-
-    # Skip Alpine on Ansible 2.9
     - name: Skip Alpine / Ansible 2.9
       meta: end_play
       when: ansible_distribution == 'Alpine' and ansible_version['full'] is search('^2.9')
-
-    # dnf / yum / apt / apk
-
-    - name: 'package / os-packages / install / non-verbose'
+    - name: package / os-packages / install / non-verbose
       include_role:
         name: package
         apply:
           tags: molecule-idempotence-notest
       vars:
         package_mode: install
-        package_list: "{{ packages_add }}"
-
-    - name: 'package / os-packages / remove / non-verbose'
+        package_list: '{{ packages_add }}'
+    - name: package / os-packages / remove / non-verbose
       include_role:
         name: package
         apply:
           tags: molecule-idempotence-notest
       vars:
         package_mode: remove
-        package_list: "{{ packages_rm }}"
-
-    - name: 'package / os-packages / install / verbose'
+        package_list: '{{ packages_rm }}'
+    - name: package / os-packages / install / verbose
       include_role:
         name: package
         apply:
           tags: molecule-idempotence-notest
       vars:
         package_mode: install-verbose
-        package_list: "{{ packages_rm }}"
-
-    - name: 'package / os-packages / update / verbose'
+        package_list: '{{ packages_rm }}'
+    - name: package / os-packages / update / verbose
       include_role:
         name: package
       vars:
         package_mode: upgrade-verbose
-
-
-    # pip
-
-    - name: 'package / pip / install / non-verbose / system-packages'
+        package_delay: 15
+        package_retries: 2
+    - name: package / pip / install / non-verbose / system-packages
       include_role:
         name: package
         apply:
@@ -151,8 +148,7 @@ package_no_proxy: "{{ no_proxy | default('localhost,127.0.0.1') }}"
         package_mgr: pip
         package_list:
           - e2j2==0.6.2
-
-    - name: 'package / pip / update / verbose / system-packages'
+    - name: package / pip / update / verbose / system-packages
       include_role:
         name: package
       vars:
@@ -160,8 +156,7 @@ package_no_proxy: "{{ no_proxy | default('localhost,127.0.0.1') }}"
         package_mgr: pip
         package_list:
           - e2j2==0.7.1
-
-    - name: 'package / pip / install / verbose / virtualenv'
+    - name: package / pip / install / verbose / virtualenv
       include_role:
         name: package
       vars:

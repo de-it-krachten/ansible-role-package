@@ -1,5 +1,14 @@
 ---
 
+# Amount of retries
+package_retries: 0
+
+# Delay between retries
+package_delay: 10
+
+# Execute prepare steps for package management
+package_prepare: true
+
 # Package manager to use (defaults to OS default)
 package_mgr: "{{ ansible_pkg_mgr }}"
 
