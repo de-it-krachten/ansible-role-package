@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.11.1...v1.12.0) (2024-04-12)
+
+
+### Features
+
+* Add optional retrying of failed install/update ([e412939](https://github.com/de-it-krachten/ansible-role-package/commit/e412939876254a5f70600ba45b0378f7281c70e2))
+
 ## [1.11.1](https://github.com/de-it-krachten/ansible-role-package/compare/v1.11.0...v1.11.1) (2023-09-20)
 
 
