@@ -1,3 +1,10 @@
+# [1.13.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.12.0...v1.13.0) (2024-06-03)
+
+
+### Features
+
+* Add support for Ubuntu 24.04 LTS + Fedora 40 ([84ecf93](https://github.com/de-it-krachten/ansible-role-package/commit/84ecf93d9125d61ce5e02bae337ecfa912c24f51))
+
 # [1.12.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.11.1...v1.12.0) (2024-04-12)
 
 
