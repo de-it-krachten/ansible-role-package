@@ -10,7 +10,7 @@ package_delay: 10
 package_prepare: true
 
 # Package manager to use (defaults to OS default)
-package_mgr: "{{ ansible_pkg_mgr }}"
+package_mgr: "{{ ansible_pkg_mgr | regex_replace('dnf\\d', 'dnf') }}"
 
 # Mode to operate in.
 # Can be install/install-verbose/remove/remove-verbose/update/upgrade/upgrade-verbose

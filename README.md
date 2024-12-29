@@ -20,10 +20,8 @@ None
 
 Supported platforms
 
-- Red Hat Enterprise Linux 7<sup>1</sup>
 - Red Hat Enterprise Linux 8<sup>1</sup>
 - Red Hat Enterprise Linux 9<sup>1</sup>
-- CentOS 7
 - RockyLinux 8
 - RockyLinux 9
 - OracleLinux 8
@@ -37,8 +35,8 @@ Supported platforms
 - Ubuntu 20.04 LTS
 - Ubuntu 22.04 LTS
 - Ubuntu 24.04 LTS
-- Fedora 39
 - Fedora 40
+- Fedora 41
 - Alpine 3
 
 Note:
@@ -57,7 +55,7 @@ package_delay: 10
 package_prepare: true
 
 # Package manager to use (defaults to OS default)
-package_mgr: "{{ ansible_pkg_mgr }}"
+package_mgr: "{{ ansible_pkg_mgr | regex_replace('dnf\\d', 'dnf') }}"
 
 # Mode to operate in.
 # Can be install/install-verbose/remove/remove-verbose/update/upgrade/upgrade-verbose
@@ -102,8 +100,6 @@ package_no_proxy: "{{ no_proxy | default('localhost,127.0.0.1') }}"
         site_packages: false
         packages:
           - pip
-  roles:
-    - deitkrachten.python
   tasks:
     - name: Skip Alpine / Ansible 2.9
       meta: end_play
