@@ -1,3 +1,10 @@
+# [1.14.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.13.0...v1.14.0) (2024-12-29)
+
+
+### Features
+
+* Update supported platforms & CI ([e86749d](https://github.com/de-it-krachten/ansible-role-package/commit/e86749d5c310b3f3b7f5d2d8416238ee4a141264))
+
 # [1.13.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.12.0...v1.13.0) (2024-06-03)
 
 
