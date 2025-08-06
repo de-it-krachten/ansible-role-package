@@ -22,21 +22,26 @@ Supported platforms
 
 - Red Hat Enterprise Linux 8<sup>1</sup>
 - Red Hat Enterprise Linux 9<sup>1</sup>
+- Red Hat Enterprise Linux 10<sup>1</sup>
 - RockyLinux 8
 - RockyLinux 9
+- RockyLinux 10
 - OracleLinux 8
 - OracleLinux 9
+- OracleLinux 10
 - AlmaLinux 8
 - AlmaLinux 9<sup>1</sup>
+- AlmaLinux 10
 - SUSE Linux Enterprise 15<sup>1</sup>
 - openSUSE Leap 15
 - Debian 11 (Bullseye)
 - Debian 12 (Bookworm)
+- Debian 13 (Trixie)
 - Ubuntu 20.04 LTS
 - Ubuntu 22.04 LTS
 - Ubuntu 24.04 LTS
-- Fedora 40
 - Fedora 41
+- Fedora 42
 - Alpine 3
 
 Note:
@@ -100,6 +105,8 @@ package_no_proxy: "{{ no_proxy | default('localhost,127.0.0.1') }}"
         site_packages: false
         packages:
           - pip
+  roles:
+    - deitkrachten.python
   tasks:
     - name: Skip Alpine / Ansible 2.9
       meta: end_play

@@ -1,6 +1,6 @@
 ---
 
-- name: Upgrade packages (YUM)  # noqa package-latest
+- name: Upgrade packages (YUM)  # noqa package-latest fqcn[action-core]
   ansible.builtin.yum:
     name: '*'
     state: latest

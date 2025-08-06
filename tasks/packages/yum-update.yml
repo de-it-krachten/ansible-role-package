@@ -1,6 +1,6 @@
 ---
 
-- name: Update package list (YUM)
+- name: Update package list (YUM)  # noqa fqcn[action-core]
   ansible.builtin.yum:
     list: updates
     update_cache: true
