@@ -142,24 +142,6 @@ package_no_proxy: "{{ no_proxy | default('localhost,127.0.0.1') }}"
         package_mode: upgrade-verbose
         package_delay: 15
         package_retries: 2
-    - name: package / pip / install / non-verbose / system-packages
-      include_role:
-        name: package
-        apply:
-          tags: molecule-idempotence-notest
-      vars:
-        package_mode: install
-        package_mgr: pip
-        package_list:
-          - e2j2==0.6.2
-    - name: package / pip / update / verbose / system-packages
-      include_role:
-        name: package
-      vars:
-        package_mode: install-verbose
-        package_mgr: pip
-        package_list:
-          - e2j2==0.7.1
     - name: package / pip / install / verbose / virtualenv
       include_role:
         name: package
