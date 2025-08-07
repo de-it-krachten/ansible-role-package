@@ -1,3 +1,14 @@
+# [1.15.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.14.0...v1.15.0) (2025-08-07)
+
+
+### Features
+
+* Add support for AlmaLinux 10 ([e16dc84](https://github.com/de-it-krachten/ansible-role-package/commit/e16dc844040c20ab8a8ace5c6ef19f05200cae89))
+* Add support for Debian 13 (Trixie) ([7145a36](https://github.com/de-it-krachten/ansible-role-package/commit/7145a366f83f3f8c2b814f9cb18aed873e2df2b3))
+* Add support for OracleLinux 10 ([f2ccb8c](https://github.com/de-it-krachten/ansible-role-package/commit/f2ccb8c17dd57f256e7a55776db26a97a9a1369b))
+* Add support for Red Hat Enterprise Linux 10 ([dfb643a](https://github.com/de-it-krachten/ansible-role-package/commit/dfb643a25ef7b171336050810e5f42519539d300))
+* Add support for RockyLinux 10 ([2d70b3f](https://github.com/de-it-krachten/ansible-role-package/commit/2d70b3fd5b73e982164a566d608cf280f62b9717))
+
 # [1.14.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.13.0...v1.14.0) (2024-12-29)
 
 
