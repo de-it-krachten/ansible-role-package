@@ -1,6 +1,6 @@
 ---
 
-- name: Installing {{ description | default('additional') }} packages (YUM)  # noqa name[template]
+- name: Installing {{ description | default('additional') }} packages (YUM)  # noqa name[template] fqcn[action-core]
   ansible.builtin.yum:
     state: present
     name: "{{ __package_list }}"

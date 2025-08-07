@@ -1,6 +1,6 @@
 ---
 
-- name: Removing {{ description | default('additional') }} packages (YUM)  # noqa name[template]
+- name: Removing {{ description | default('additional') }} packages (YUM)  # noqa name[template] fqcn[action-core]
   ansible.builtin.yum:
     state: absent
     name: "{{ __package_list }}"

@@ -22,21 +22,26 @@ Supported platforms
 
 - Red Hat Enterprise Linux 8<sup>1</sup>
 - Red Hat Enterprise Linux 9<sup>1</sup>
+- Red Hat Enterprise Linux 10<sup>1</sup>
 - RockyLinux 8
 - RockyLinux 9
+- RockyLinux 10
 - OracleLinux 8
 - OracleLinux 9
+- OracleLinux 10
 - AlmaLinux 8
 - AlmaLinux 9<sup>1</sup>
+- AlmaLinux 10
 - SUSE Linux Enterprise 15<sup>1</sup>
 - openSUSE Leap 15
 - Debian 11 (Bullseye)
 - Debian 12 (Bookworm)
+- Debian 13 (Trixie)
 - Ubuntu 20.04 LTS
 - Ubuntu 22.04 LTS
 - Ubuntu 24.04 LTS
-- Fedora 40
 - Fedora 41
+- Fedora 42
 - Alpine 3
 
 Note:
@@ -100,6 +105,8 @@ package_no_proxy: "{{ no_proxy | default('localhost,127.0.0.1') }}"
         site_packages: false
         packages:
           - pip
+  roles:
+    - deitkrachten.python
   tasks:
     - name: Skip Alpine / Ansible 2.9
       meta: end_play
@@ -135,24 +142,6 @@ package_no_proxy: "{{ no_proxy | default('localhost,127.0.0.1') }}"
         package_mode: upgrade-verbose
         package_delay: 15
         package_retries: 2
-    - name: package / pip / install / non-verbose / system-packages
-      include_role:
-        name: package
-        apply:
-          tags: molecule-idempotence-notest
-      vars:
-        package_mode: install
-        package_mgr: pip
-        package_list:
-          - e2j2==0.6.2
-    - name: package / pip / update / verbose / system-packages
-      include_role:
-        name: package
-      vars:
-        package_mode: install-verbose
-        package_mgr: pip
-        package_list:
-          - e2j2==0.7.1
     - name: package / pip / install / verbose / virtualenv
       include_role:
         name: package
