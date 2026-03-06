@@ -6,21 +6,31 @@ generic:
     Role to make package management easier.
     Supports dnf, yum, apt, apk, zypper and pip
 
-# Platforms
+# Supported platforms
 platforms:
   almalinux9:
+    supported: true
     ci: false
-    supported: true
-  alpine3:
-    ci: true
-    supported: true
-  opensuse15:
-    ci: true
-    supported: true
   sles15:
-    ci: false
     supported: true
+    ci: false
+  sles16:
+    supported: true
+    ci: false
+  opensuse15:
+    supported: true
+    ci: true
+  opensuse16:
+    supported: true
+    ci: true
+  ubuntu2004:
+    supported: true
+    ci: true
+  alpine3:
+    supported: true
+    ci: true
 
+# Platforms
 # CI templates
 ci_templates:
   converge.yml:
