@@ -11,18 +11,6 @@ platforms:
   almalinux9:
     supported: true
     ci: false
-  sles15:
-    supported: true
-    ci: false
-  sles16:
-    supported: true
-    ci: false
-  opensuse15:
-    supported: true
-    ci: true
-  opensuse16:
-    supported: true
-    ci: true
   ubuntu2004:
     supported: true
     ci: true
