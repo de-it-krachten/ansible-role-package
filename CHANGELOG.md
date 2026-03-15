@@ -1,3 +1,13 @@
+# [1.16.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.15.0...v1.16.0) (2026-03-15)
+
+
+### Features
+
+* Added support for Fedora 43 ([d93ecc4](https://github.com/de-it-krachten/ansible-role-package/commit/d93ecc47defd2bb234df7f475462a3bbeed31dd6))
+* Drop support for Fedora 41 ([9514f2b](https://github.com/de-it-krachten/ansible-role-package/commit/9514f2bb2b3ec7ae20477c320ef55413360c5d6c))
+* Drop support for openSUSE Leap 15 ([6187c78](https://github.com/de-it-krachten/ansible-role-package/commit/6187c788489f7eaaf407533e975d8e6691e1476b))
+* Drop support for SUSE Linux Enterprise 15 ([44ec7a1](https://github.com/de-it-krachten/ansible-role-package/commit/44ec7a11a43ba2674bdcae10b248c8d346770ff0))
+
 # [1.15.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.14.0...v1.15.0) (2025-08-07)
 
 
