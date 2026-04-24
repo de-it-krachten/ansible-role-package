@@ -369,6 +369,26 @@ platforms:
           - network_name: private_network
             type: dhcp
             auto_config: true
+  olam8:
+    name: Oracle Linux Automation Manager 8
+    ci: false
+    supported: false
+    galaxy:
+      name: EL
+      version: 8
+    molecule:
+      docker:
+        image: "docker.io/dropveter/olam:latest"
+        pre_build_image: true
+        privileged: true
+        volumes:
+          - /sys/fs/cgroup:/sys/fs/cgroup:rw
+        cgroupns_mode: host
+        ports:
+          - 443:443
+      podman:
+        image: "docker.io/dropveter/olam:latest"
+      vagrant: {}
   almalinux8:
     name: AlmaLinux 8
     ci: true
@@ -762,6 +782,31 @@ platforms:
             type: dhcp
       hetznercloud:
         image: ubuntu-24.04
+        server_type: cx22
+  ubuntu2604:
+    name: Ubuntu 26.04 LTS
+    ci: true
+    supported: true
+    galaxy:
+      name: Ubuntu
+      version: jammy
+    molecule:
+      docker:
+        image: "docker.io/geerlingguy/docker-ubuntu2604-ansible:latest"
+        pre_build_image: true
+        privileged: true
+        volumes:
+          - /sys/fs/cgroup:/sys/fs/cgroup:rw
+        cgroupns_mode: host
+      podman:
+        image: "docker.io/geerlingguy/docker-ubuntu2604-ansible:latest"
+      vagrant:
+        box: "generic/ubuntu2604"
+        interfaces:
+          - network_name: private_network
+            type: dhcp
+      hetznercloud:
+        image: ubuntu-26.04
         server_type: cx22
   fedora37:
     name: Fedora 37
@@ -1294,4 +1339,5 @@ ci_templates:
 ansible_lint:
   exclude_paths:
     - molecule/
-  skip_list: []
+  skip_list:
+    - jinja[spacing]

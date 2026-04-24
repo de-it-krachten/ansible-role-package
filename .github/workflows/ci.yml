@@ -107,15 +107,15 @@ jobs:
             api_url=https://api.github.com/repos/de-it-krachten/cicd-tools/releases/latest
 
             # Get latest release download URL for .deb asset
-            cicd_version=$(curl -s $api_url | jq -r '.tag_name' | sed "s/^v//")
+            cicd_version=$(curl -s $api_url | jq -r '.tag_name' | sed "s/null//" | sed "s/^v//")
 
           fi
 
           # If still no version found, fall back onto a default
           if [[ -z $cicd_version ]]
           then
-            echo "== Fallback to default version '1.6.0'"
-            cicd_version=1.6.0
+            echo "== Fallback to default version '2.0.0'"
+            cicd_version=2.0.0
           fi
 
           # Construct url
@@ -301,6 +301,15 @@ jobs:
             python: "3.13"
             hetznercloud: True
 
+          - name: ubuntu2604
+            runs_on: ubuntu-22.04
+            distro: ubuntu2604
+            playbook: converge.yml
+            ansible: "ansible-core>2.18,<2.19"
+            ansible_lint: "ansible-lint"
+            python: "3.13"
+            hetznercloud: True
+
           - name: fedora42
             runs_on: ubuntu-22.04
             distro: fedora42
@@ -421,15 +430,15 @@ jobs:
             api_url=https://api.github.com/repos/de-it-krachten/cicd-tools/releases/latest
 
             # Get latest release download URL for .deb asset
-            cicd_version=$(curl -s $api_url | jq -r '.tag_name' | sed "s/^v//")
+            cicd_version=$(curl -s $api_url | jq -r '.tag_name' | sed "s/null//" | sed "s/^v//")
 
           fi
 
           # If still no version found, fall back onto a default
           if [[ -z $cicd_version ]]
           then
-            echo "== Fallback to default version '1.6.0'"
-            cicd_version=1.6.0
+            echo "== Fallback to default version '2.0.0'"
+            cicd_version=2.0.0
           fi
 
           # Construct url
