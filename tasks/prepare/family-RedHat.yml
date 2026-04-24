@@ -1,2 +1,13 @@
 ---
 
+- name: Update redhat-release
+  ansible.builtin.dnf:
+     name: redhat-release
+     state: latest
+  register: __redhat_release
+
+- name: Clean DNF cache
+  ansible.builtin.command:
+    cmd: dnf clean all
+  changed_when: true
+  when: __redhat_release is changed
