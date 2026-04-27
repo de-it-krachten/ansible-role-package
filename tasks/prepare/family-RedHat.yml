@@ -1,12 +1,12 @@
 ---
 
-- name: Update redhat-release
+- name: Update redhat-release  # noqa package-latest
   ansible.builtin.dnf:
-     name: redhat-release
-     state: latest
+    name: redhat-release
+    state: latest
   register: __redhat_release
 
-- name: Clean DNF cache
+- name: Clean DNF cache  # noqa no-handler
   ansible.builtin.command:
     cmd: dnf clean all
   changed_when: true
