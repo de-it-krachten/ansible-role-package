@@ -38,6 +38,7 @@ Supported platforms
 - Ubuntu 20.04 LTS
 - Ubuntu 22.04 LTS
 - Ubuntu 24.04 LTS
+- Ubuntu 26.04 LTS
 - Fedora 42
 - Fedora 43
 - Alpine 3

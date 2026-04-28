@@ -83,11 +83,6 @@ jobs:
       - name: Install test dependencies.
         run: |
           sudo rm -f /usr/bin/yq
-          python3 -m venv ~/.venv
-          source ~/.venv/bin/activate
-          pip3 install pip wheel setuptools --upgrade
-          pip3 install "${{ matrix.ansible }}" "${{ matrix.ansible_lint }}" yamllint jmespath yq e2j2 jinja2-ansible-filters
-          pip3 list
 
       - name: Retrieve & install wrapper scripts
         run: |
@@ -107,15 +102,15 @@ jobs:
             api_url=https://api.github.com/repos/de-it-krachten/cicd-tools/releases/latest
 
             # Get latest release download URL for .deb asset
-            cicd_version=$(curl -s $api_url | jq -r '.tag_name' | sed "s/^v//")
+            cicd_version=$(curl -s $api_url | jq -r '.tag_name' | sed "s/null//" | sed "s/^v//")
 
           fi
 
           # If still no version found, fall back onto a default
           if [[ -z $cicd_version ]]
           then
-            echo "== Fallback to default version '1.6.0'"
-            cicd_version=1.6.0
+            echo "== Fallback to default version '2.0.0'"
+            cicd_version=2.0.0
           fi
 
           # Construct url
@@ -129,32 +124,38 @@ jobs:
           echo "== Installing package '$file'"
           sudo dpkg -i $file || exit 1
 
+      - name: Update wrapper scripts
+        run: |
+          set -e
+          prefix=/opt/cicd-tools
+          [[ $(id -un) != root ]] && sudo=sudo
+          $sudo apt install git rsync -y
+          git clone https://github.com/de-it-krachten/cicd-tools.git /tmp/cicd-tools
+          $sudo rsync -cav /tmp/cicd-tools/scripts/* ${prefix}/ | grep -v "/$"
+          for f in /opt/cicd-tools/bin/*
+          do
+            $sudo ln -fs $f /usr/local/bin/$(basename $f)
+          done
+          $sudo chown -h -R root:root ${prefix}
+
+      - name: Install tools in their virtual environments
+        run: |
+          set -e
+          [[ $(id -un) != root ]] && sudo=sudo
+          ansible=$(echo ${{ matrix.name }} | sed "s/[_\.]//g" | sed "s/ansible/ansiblecore/")
+          export VENV_LIST="yq e2j2 jinjanator $ansible"
+          /opt/cicd-tools/python/python-setup-venvs.sh -v --sudo /usr/local/venv
+
       - name: Install required galaxy collections
         run: |
-          source ~/.venv/bin/activate
+          ansible=$(echo ${{ matrix.name }} | sed "s/[_\.]//g" | sed "s/ansible/ansiblecore/")
+          source /usr/local/venv/$ansible/bin/activate
           /usr/local/bin/ansible-collections.sh
-
-      - name: For ansible 2.9, we need to perform some tweaking
-        run: |
-          source ~/.venv/bin/activate
-          ansible=$(pip show ansible 2>/dev/null | awk '/Version:/ {print $2}')
-          ansible_core=$(pip show ansible-core 2>/dev/null | awk '/Version:/ {print $2}')
-          ansible=${ansible:-$ansible_core}
-          echo "Ansible version = $ansible"
-          if [[ $ansible =~ 2.9.* ]]
-          then
-            echo "Patching for Rocky support"
-            site=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-            sed -i "s/'AlmaLinux'\],/'AlmaLinux', 'Rocky'\],/" $site/ansible/module_utils/facts/system/distribution.py
-            echo "Downgrading 'community.general' to '3.8.3'"
-            ansible-galaxy collection install community.general:3.8.3 --force
-          else
-            echo "No need to patch it"
-          fi
 
       - name: Show component versions
         run: |
-          source ~/.venv/bin/activate
+          ansible=$(echo ${{ matrix.name }} | sed "s/[_\.]//g" | sed "s/ansible/ansiblecore/")
+          source /usr/local/venv/$ansible/bin/activate
           ansible --version
           ansible-lint --version
           yamllint --version
@@ -162,7 +163,8 @@ jobs:
       - name: Lint code.
         run: |
           set -e
-          source ~/.venv/bin/activate
+          ansible=$(echo ${{ matrix.name }} | sed "s/[_\.]//g" | sed "s/ansible/ansiblecore/")
+          source /usr/local/venv/$ansible/bin/activate
           yamllint .
           /usr/local/bin/ansible-lint.sh -f readable
 
@@ -179,6 +181,7 @@ jobs:
             runs_on: ubuntu-22.04
             distro: rockylinux8
             playbook: converge.yml
+            venv: "ansiblecore216"
             ansible: "ansible-core>2.16,<2.17"
             ansible_lint: "ansible-lint>6,<7"
             python: "3.12"
@@ -188,6 +191,7 @@ jobs:
             runs_on: ubuntu-22.04
             distro: rockylinux9
             playbook: converge.yml
+            venv: "ansiblecore218"
             ansible: "ansible-core>2.18,<2.19"
             ansible_lint: "ansible-lint"
             python: "3.13"
@@ -197,6 +201,7 @@ jobs:
             runs_on: ubuntu-22.04
             distro: rockylinux10
             playbook: converge.yml
+            venv: "ansiblecore218"
             ansible: "ansible-core>2.18,<2.19"
             ansible_lint: "ansible-lint"
             python: "3.13"
@@ -206,6 +211,7 @@ jobs:
             runs_on: ubuntu-22.04
             distro: oraclelinux8
             playbook: converge.yml
+            venv: "ansiblecore216"
             ansible: "ansible-core>2.16,<2.17"
             ansible_lint: "ansible-lint>6,<7"
             python: "3.12"
@@ -215,6 +221,7 @@ jobs:
             runs_on: ubuntu-22.04
             distro: oraclelinux9
             playbook: converge.yml
+            venv: "ansiblecore218"
             ansible: "ansible-core>2.18,<2.19"
             ansible_lint: "ansible-lint"
             python: "3.13"
@@ -224,6 +231,7 @@ jobs:
             runs_on: ubuntu-22.04
             distro: oraclelinux10
             playbook: converge.yml
+            venv: "ansiblecore218"
             ansible: "ansible-core>2.18,<2.19"
             ansible_lint: "ansible-lint"
             python: "3.13"
@@ -233,6 +241,7 @@ jobs:
             runs_on: ubuntu-22.04
             distro: almalinux8
             playbook: converge.yml
+            venv: "ansiblecore216"
             ansible: "ansible-core>2.16,<2.17"
             ansible_lint: "ansible-lint>6,<7"
             python: "3.12"
@@ -242,6 +251,7 @@ jobs:
             runs_on: ubuntu-22.04
             distro: almalinux10
             playbook: converge.yml
+            venv: "ansiblecore218"
             ansible: "ansible-core>2.18,<2.19"
             ansible_lint: "ansible-lint"
             python: "3.13"
@@ -251,6 +261,7 @@ jobs:
             runs_on: ubuntu-22.04
             distro: debian11
             playbook: converge.yml
+            venv: "ansiblecore218"
             ansible: "ansible-core>2.18,<2.19"
             ansible_lint: "ansible-lint"
             python: "3.13"
@@ -260,6 +271,7 @@ jobs:
             runs_on: ubuntu-22.04
             distro: debian12
             playbook: converge.yml
+            venv: "ansiblecore218"
             ansible: "ansible-core>2.18,<2.19"
             ansible_lint: "ansible-lint"
             python: "3.13"
@@ -269,6 +281,7 @@ jobs:
             runs_on: ubuntu-22.04
             distro: debian13
             playbook: converge.yml
+            venv: "ansiblecore218"
             ansible: "ansible-core>2.18,<2.19"
             ansible_lint: "ansible-lint"
             python: "3.13"
@@ -278,6 +291,7 @@ jobs:
             runs_on: ubuntu-22.04
             distro: ubuntu2004
             playbook: converge.yml
+            venv: "ansiblecore218"
             ansible: "ansible-core>2.18,<2.19"
             ansible_lint: "ansible-lint"
             python: "3.13"
@@ -287,6 +301,7 @@ jobs:
             runs_on: ubuntu-22.04
             distro: ubuntu2204
             playbook: converge.yml
+            venv: "ansiblecore218"
             ansible: "ansible-core>2.18,<2.19"
             ansible_lint: "ansible-lint"
             python: "3.13"
@@ -296,6 +311,17 @@ jobs:
             runs_on: ubuntu-22.04
             distro: ubuntu2404
             playbook: converge.yml
+            venv: "ansiblecore218"
+            ansible: "ansible-core>2.18,<2.19"
+            ansible_lint: "ansible-lint"
+            python: "3.13"
+            hetznercloud: True
+
+          - name: ubuntu2604
+            runs_on: ubuntu-22.04
+            distro: ubuntu2604
+            playbook: converge.yml
+            venv: "ansiblecore218"
             ansible: "ansible-core>2.18,<2.19"
             ansible_lint: "ansible-lint"
             python: "3.13"
@@ -305,6 +331,7 @@ jobs:
             runs_on: ubuntu-22.04
             distro: fedora42
             playbook: converge.yml
+            venv: "ansiblecore218"
             ansible: "ansible-core>2.18,<2.19"
             ansible_lint: "ansible-lint"
             python: "3.13"
@@ -314,6 +341,7 @@ jobs:
             runs_on: ubuntu-22.04
             distro: fedora43
             playbook: converge.yml
+            venv: "ansiblecore218"
             ansible: "ansible-core>2.18,<2.19"
             ansible_lint: "ansible-lint"
             python: "3.13"
@@ -323,6 +351,7 @@ jobs:
             runs_on: ubuntu-22.04
             distro: alpine3
             playbook: converge.yml
+            venv: "ansiblecore218"
             ansible: "ansible-core>2.18,<2.19"
             ansible_lint: "ansible-lint"
             python: "3.13"
@@ -374,34 +403,6 @@ jobs:
       - name: Install test dependencies.
         run: |
           sudo rm -f /usr/bin/yq
-          python3 -m venv ~/.venv
-          source ~/.venv/bin/activate
-          pip3 install pip wheel setuptools --upgrade
-          pip3 install yq e2j2 jinja2-ansible-filters passlib
-          # pip3 install "${{ matrix.ansible }}" "${{ matrix.ansible_lint }}" "ansible-compat<4" "molecule<5" yamllint jmespath
-          pip3 install "${{ matrix.ansible }}" "${{ matrix.ansible_lint }}" yamllint jmespath molecule
-
-          echo "MOLECULE_DRIVER = $MOLECULE_DRIVER"
-          if [[ $MOLECULE_DRIVER == 'hetznercloud' ]] ; then
-            pip3 install molecule-hetznercloud
-            ansible-galaxy collection install hetzner.hcloud community.crypto
-            site=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-            createyml_file=$site/molecule_hetznercloud/playbooks/create.yml
-            createyml_url=https://raw.githubusercontent.com/de-it-krachten/molecule-hetznercloud/sshkey/molecule_hetznercloud/playbooks/create.yml
-            sudo apt install curl
-            curl -s -o $createyml_file $createyml_url
-          elif [[ $MOLECULE_DRIVER == 'vagrant' ]] ; then
-            pip3 install molecule-vagrant
-          elif [[ $MOLECULE_DRIVER == 'podman' ]] ; then
-            pip3 install molecule-podman
-          else
-            pip3 install molecule-docker
-          fi
-
-          pip3 install "requests<2.29" "urllib3<2"
-          pip3 list
-        env:
-          MOLECULE_DRIVER: ${{ vars.MOLECULE_DRIVER }}
 
       - name: Retrieve & install wrapper scripts
         run: |
@@ -421,15 +422,15 @@ jobs:
             api_url=https://api.github.com/repos/de-it-krachten/cicd-tools/releases/latest
 
             # Get latest release download URL for .deb asset
-            cicd_version=$(curl -s $api_url | jq -r '.tag_name' | sed "s/^v//")
+            cicd_version=$(curl -s $api_url | jq -r '.tag_name' | sed "s/null//" | sed "s/^v//")
 
           fi
 
           # If still no version found, fall back onto a default
           if [[ -z $cicd_version ]]
           then
-            echo "== Fallback to default version '1.6.0'"
-            cicd_version=1.6.0
+            echo "== Fallback to default version '2.0.0'"
+            cicd_version=2.0.0
           fi
 
           # Construct url
@@ -443,28 +444,33 @@ jobs:
           echo "== Installing package '$file'"
           sudo dpkg -i $file || exit 1
 
+      - name: Update wrapper scripts
+        run: |
+          set -e
+          prefix=/opt/cicd-tools
+          [[ $(id -un) != root ]] && sudo=sudo
+          $sudo apt install git rsync -y
+          git clone https://github.com/de-it-krachten/cicd-tools.git /tmp/cicd-tools
+          $sudo rsync -cav /tmp/cicd-tools/scripts/* ${prefix}/ | grep -v "/$"
+          for f in /opt/cicd-tools/bin/*
+          do
+            $sudo ln -fs $f /usr/local/bin/$(basename $f)
+          done
+          $sudo chown -h -R root:root ${prefix}
+
+      - name: Install tools in their virtual environments
+        run: |
+          set -e
+          [[ $(id -un) != root ]] && sudo=sudo
+          ansible="${{ matrix.venv }}"
+          export VENV_LIST="yq e2j2 jinjanator $ansible"
+          /opt/cicd-tools/python/python-setup-venvs.sh --sudo /usr/local/venv
+
       - name: Install required galaxy collections
         run: |
-          source ~/.venv/bin/activate
+          ansible="${{ matrix.venv }}"
+          source /usr/local/venv/$ansible/bin/activate
           /usr/local/bin/ansible-collections.sh
-
-      - name: For ansible 2.9, we need to perform some tweaking
-        run: |
-          source ~/.venv/bin/activate
-          ansible=$(pip show ansible 2>/dev/null | awk '/Version:/ {print $2}')
-          ansible_core=$(pip show ansible-core 2>/dev/null | awk '/Version:/ {print $2}')
-          ansible=${ansible:-$ansible_core}
-          echo "Ansible version = $ansible"
-          if [[ $ansible =~ 2.9.* ]]
-          then
-            echo "Patching for Rocky support"
-            site=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-            sed -i "s/'AlmaLinux'\],/'AlmaLinux', 'Rocky'\],/" $site/ansible/module_utils/facts/system/distribution.py
-            echo "Downgrading 'community.general' to '3.8.3'"
-            ansible-galaxy collection install community.general:3.8.3 --force
-          else
-            echo "No need to patch it"
-          fi
 
       - name: Set-up github runner
         run: |
@@ -472,7 +478,11 @@ jobs:
 
       - name: Show component versions
         run: |
-          source ~/.venv/bin/activate
+          ansible="${{ matrix.venv }}"
+          source /usr/local/venv/$ansible/bin/activate
+          set -vx
+          pip3 list
+          ansible-galaxy collection list
           python3 --version
           ansible --version
           ansible-lint --version
@@ -481,7 +491,8 @@ jobs:
 
       - name: Run Molecule tests.
         run: |
-          source ~/.venv/bin/activate
+          ansible="${{ matrix.venv }}"
+          source /usr/local/venv/$ansible/bin/activate
           /usr/local/bin/molecule-test.sh -A
         env:
           PY_COLORS: '1'
