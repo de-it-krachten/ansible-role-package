@@ -1,3 +1,15 @@
+# [1.17.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.16.0...v1.17.0) (2026-04-28)
+
+
+### Bug Fixes
+
+* Ensure latest GPG keys are installed (RedHat-family) ([0a00ee4](https://github.com/de-it-krachten/ansible-role-package/commit/0a00ee43fe700086c6d871df8b8eae2fde195cd8))
+
+
+### Features
+
+* Added support for Ubuntu 26.04 LTS ([562d6d5](https://github.com/de-it-krachten/ansible-role-package/commit/562d6d5ca919c5b389667514452cf810eb5ccda2))
+
 # [1.16.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.15.0...v1.16.0) (2026-03-15)
 
 
