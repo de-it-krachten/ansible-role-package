@@ -39,8 +39,8 @@ Supported platforms
 - Ubuntu 22.04 LTS
 - Ubuntu 24.04 LTS
 - Ubuntu 26.04 LTS
-- Fedora 42
 - Fedora 43
+- Fedora 44<sup>1</sup>
 - Alpine 3
 
 Note:
@@ -60,7 +60,7 @@ package_delay: 10
 package_prepare: true
 
 # Package manager to use (defaults to OS default)
-package_mgr: "{{ ansible_pkg_mgr | regex_replace('dnf\\d', 'dnf') }}"
+package_mgr: "{{ ansible_facts.pkg_mgr | regex_replace('dnf\\d', 'dnf') }}"
 
 # Mode to operate in.
 # Can be install/install-verbose/remove/remove-verbose/update/upgrade/upgrade-verbose
