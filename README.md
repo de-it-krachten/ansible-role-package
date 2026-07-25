@@ -110,7 +110,8 @@ package_no_proxy: "{{ no_proxy | default('localhost,127.0.0.1') }}"
   tasks:
     - name: Skip Alpine / Ansible 2.9
       meta: end_play
-      when: ansible_distribution == 'Alpine' and ansible_version['full'] is search('^2.9')
+      when: ansible_facts.distribution == 'Alpine' and ansible_version['full'] is
+        search('^2.9')
     - name: package / os-packages / install / non-verbose
       include_role:
         name: package
