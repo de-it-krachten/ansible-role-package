@@ -1,5 +1,8 @@
 ---
 
+# Use become
+package_become: true
+
 # Amount of retries
 package_retries: 0
 
