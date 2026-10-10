@@ -32,7 +32,6 @@ Supported platforms
 - AlmaLinux 8
 - AlmaLinux 9<sup>1</sup>
 - AlmaLinux 10
-- Debian 11 (Bullseye)
 - Debian 12 (Bookworm)
 - Debian 13 (Trixie)
 - Ubuntu 20.04 LTS

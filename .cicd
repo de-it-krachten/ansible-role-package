@@ -599,8 +599,8 @@ platforms:
         server_type: cx23
   debian11:
     name: Debian 11 (Bullseye)
-    ci: true
-    supported: true
+    ci: false
+    supported: false
     galaxy:
       name: Debian
       version: bullseye
@@ -1194,8 +1194,8 @@ ado:
 # molecule
 molecule:
   phase1:
-    - rockylinux10
-    - ubuntu2604
+    - rockylinux9
+    - ubuntu2404
 #  scenario:
 #    test_sequence:
 #      - dependency     # Install requirements
