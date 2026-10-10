@@ -11,5 +11,5 @@
     https_proxy: "{{ package_https_proxy }}"
     http_proxy: "{{ package_http_proxy }}"
     no_proxy: "{{ package_no_proxy }}"
-  become: yes
+  become: "{{ package_become | bool }}"
   register: packages_result
