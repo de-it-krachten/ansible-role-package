@@ -50,6 +50,9 @@ Note:
 ## Role Variables
 ### defaults/main.yml
 <pre><code>
+# Use become
+package_become: true
+
 # Amount of retries
 package_retries: 0
 

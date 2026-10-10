@@ -34,20 +34,6 @@ jobs:
             python: "3.12"
             venv: "ansiblecore216"
 
-          - name: "ansible_2.18"
-            # ansible: "ansible>11,<12"
-            ansible: "ansible-core>2.18,<2.19"
-            ansible_lint: "ansible-lint"
-            python: "3.12"
-            venv: "ansiblecore218"
-
-          - name: "ansible_2.19"
-            # ansible: "ansible>12,<13"
-            ansible: "ansible-core>2.19,<2.20"
-            ansible_lint: "ansible-lint"
-            python: "3.12"
-            venv: "ansiblecore219"
-
           - name: "ansible_2.20"
             # ansible: "ansible>13,<14"
             ansible: "ansible-core>2.20,<2.21"
@@ -375,10 +361,11 @@ jobs:
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
+          ANSIBLE_INJECT_FACT_VARS: ${{ vars.ANSIBLE_INJECT_FACT_VARS || 'False' }}
           MOLECULE_DISTRO: ${{ matrix.distro }}
+          MOLECULE_DRIVER: ${{ vars.MOLECULE_DRIVER }}
           MOLECULE_PLAYBOOK: ${{ matrix.playbook }}
           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
-          MOLECULE_DRIVER: ${{ vars.MOLECULE_DRIVER }}
   molecule2:
     name: "${{ matrix.name }}"
     runs-on: "${{ matrix.runs_on }}"
@@ -680,8 +667,9 @@ jobs:
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
+          ANSIBLE_INJECT_FACT_VARS: ${{ vars.ANSIBLE_INJECT_FACT_VARS || 'False' }}
           MOLECULE_DISTRO: ${{ matrix.distro }}
+          MOLECULE_DRIVER: ${{ vars.MOLECULE_DRIVER }}
           MOLECULE_PLAYBOOK: ${{ matrix.playbook }}
           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
-          MOLECULE_DRIVER: ${{ vars.MOLECULE_DRIVER }}
 
