@@ -1,3 +1,15 @@
+# [1.19.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.18.0...v1.19.0) (2026-10-10)
+
+
+### Bug Fixes
+
+* Make it possible to not use 'become' ([dbf23ce](https://github.com/de-it-krachten/ansible-role-package/commit/dbf23cec9f197991c59d63498ec4c7b96cb7b8db))
+
+
+### Features
+
+* Drop support for Debian 11 (Bullseye) ([ca957ef](https://github.com/de-it-krachten/ansible-role-package/commit/ca957ef20424d18b81d273d8bb62374a87ec9b47))
+
 # [1.18.0](https://github.com/de-it-krachten/ansible-role-package/compare/v1.17.0...v1.18.0) (2026-07-23)
 
 
