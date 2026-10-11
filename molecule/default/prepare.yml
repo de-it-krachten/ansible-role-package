@@ -76,7 +76,7 @@
 
     - name: Create remote_tmp
       ansible.builtin.file:
-        path: /root/.ansible/tmp
+        path: "{{ lookup('env', 'ANSIBLE_REMOTE_TMP') | default('/root/.ansible/tmp', true) }}"
         state: directory
         mode: "0700"
       when: ansible_facts.os_family != 'Windows'
