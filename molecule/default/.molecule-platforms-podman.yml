@@ -185,7 +185,7 @@
 - name: ubuntu2004
   ci: true
   image: docker.io/geerlingguy/docker-ubuntu2004-ansible:latest
-  privileged: true
+  privileged: false
   pre_build_image: true
   volumes:
     - /sys/fs/cgroup:/sys/fs/cgroup:ro
@@ -270,6 +270,6 @@
   ci: true
   image: docker.io/dropveter/alpine-python3
   privileged: false
-  pre_build_image: false
+  pre_build_image: true
   volumes:
     - /sys/fs/cgroup:/sys/fs/cgroup:ro
